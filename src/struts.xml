@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN" "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+<!--开发模式下使用，这样可以打印出更详细的错误信息-->
+	<constant name="struts.devMode" value="true" />
+	<constant name="struts.custom.i18n.resources" value="i18n" />
+	<!--每次Http请求到达时,是否重新加载资源文件-->
+	<constant name="struts.i18n.reload" value="false" />
+	<constant name="struts.convention.classes.reload" value="false" />
+	<constant name="struts.convention.action.packages" value="net.xxs.action" />
+	<constant name="struts.serve.static.browserCache" value="true" />
+	<!--与spring集成时，指定由spring负责action对象的创建-->
+	<constant name="struts.objectFactory" value="spring" />
+	<!--默认的视图主题-->
+	<constant name="struts.ui.theme" value="simple" />
+	<constant name="struts.i18n.encoding" value="UTF-8" />
+	<constant name="struts.action.extension" value="action" />
+	<!--上传文件的大小限制-->
+	<constant name="struts.multipart.maxSize" value="-1" />
+	<constant name="struts.convention.result.path" value="/WEB-INF/template/" />
+	<constant name="struts.convention.action.name.separator" value="_" />
+	<constant name="struts.freemarker.manager.classname" value="net.xxs.common.FreemarkerManager" />
+	
+	<package name="basePackage" extends="struts-default">
+		<interceptors>
+			<interceptor-stack name="baseStack">
+                <interceptor-ref name="exception" />
+                <interceptor-ref name="alias" />
+                <interceptor-ref name="servletConfig" />
+                <interceptor-ref name="i18n" />
+                <interceptor-ref name="prepare" />
+                <interceptor-ref name="chain" />
+                <interceptor-ref name="debugging" />
+                <interceptor-ref name="scopedModelDriven" />
+                <interceptor-ref name="modelDriven" />
+                <interceptor-ref name="checkbox" />
+                <interceptor-ref name="multiselect" />
+                <interceptor-ref name="staticParams" />
+                <interceptor-ref name="actionMappingParams" />
+                <interceptor-ref name="params">
+					<param name="excludeParams">dojo\..*,^struts\..*,.*\\u0023.*,.*\\x5Cu0023.*,.*\\x5cu0023.*</param>
+                </interceptor-ref>
+                <interceptor-ref name="conversionError" />
+                <interceptor-ref name="validation">
+                    <param name="excludeMethods">input,back,cancel,browse</param>
+                    <param name="validateAnnotatedMethodOnly">true</param>
+                </interceptor-ref>
+                <interceptor-ref name="workflow">
+                    <param name="excludeMethods">input,back,cancel,browse</param>
+                </interceptor-ref>
+            </interceptor-stack>
+		</interceptors>
+
+		<default-interceptor-ref name="baseStack" />
+
+		<default-action-ref name="errorPage404Action" />
+
+		<action name="errorPage404Action">
+			<result type="redirect">/html/error_page_404.html</result>
+		</action>
+	</package>
+
+	<package name="admin" extends="basePackage" namespace="/admin">
+		<interceptors>
+			<interceptor name="trimInterceptor" class="net.xxs.interceptor.TrimInterceptor" />
+			<interceptor name="logInterceptor" class="net.xxs.interceptor.LogInterceptor" />
+			<interceptor-stack name="adminStack">
+				<interceptor-ref name="fileUpload">
+					<param name="allowedTypes">image/jpeg,image/pjpeg,image/gif,image/bmp,image/x-ms-bmp,image/png,image/x-png</param>
+					<param name="maximumSize">2097152</param>
+				</interceptor-ref>
+				<interceptor-ref name="trimInterceptor" />
+				<interceptor-ref name="logInterceptor" />
+				<interceptor-ref name="baseStack" />
+			</interceptor-stack>
+		</interceptors>
+
+		<default-interceptor-ref name="adminStack" />
+
+		<global-results>
+			<result name="error" type="freemarker">/WEB-INF/template/admin/error.ftl</result>
+			<result name="ajaxError" type="freemarker">/WEB-INF/template/admin/ajax_error.ftl</result>
+			<result name="success" type="freemarker">/WEB-INF/template/admin/success.ftl</result>
+		</global-results>
+	</package>
+
+	<package name="card" extends="basePackage" namespace="/card">
+		<interceptors>
+			<interceptor name="securityInterceptor" class="net.xxs.interceptor.SecurityInterceptor" />
+			<interceptor name="trimInterceptor" class="net.xxs.interceptor.TrimInterceptor" />
+			<interceptor name="memberVerifyInterceptor" class="net.xxs.interceptor.MemberVerifyInterceptor" />
+			<interceptor name="logInterceptor" class="net.xxs.interceptor.LogInterceptor" />
+			<interceptor-stack name="cardStack">
+				<interceptor-ref name="fileUpload">
+					<param name="allowedTypes">image/jpeg,image/pjpeg,image/gif,image/bmp,image/x-ms-bmp,image/png,image/x-png</param>
+					<param name="maximumSize">2097152</param>
+				</interceptor-ref>
+				<interceptor-ref name="securityInterceptor" />
+				<interceptor-ref name="trimInterceptor" />
+				<interceptor-ref name="logInterceptor" />
+				<interceptor-ref name="baseStack" />
+			</interceptor-stack>
+		</interceptors>
+
+		<default-interceptor-ref name="cardStack" />
+
+		<global-results>
+			<result name="login" type="redirect">
+				<param name="location">/html/login.html</param>
+				<param name="loginRedirectUrl">${loginRedirectUrl}</param>
+			</result>
+			<result name="register" type="redirect">
+				<param name="location">/html/register.html</param>
+			</result>
+			<result name="redirect" type="redirectAction">
+				<param name="namespace">/card</param>
+				<param name="actionName">redirect</param>
+				<param name="redirectUrl">${redirectUrl}</param>
+			</result>
+			<result name="invalid.token" type="freemarker">/WEB-INF/template/card/invalid_token.ftl</result>
+			<result name="error" type="freemarker">/WEB-INF/template/card/error.ftl</result>
+			<result name="ajaxError" type="freemarker">/WEB-INF/template/card/ajax_error.ftl</result>
+		</global-results>
+	</package>
+	
+	<package name="api" extends="basePackage" namespace="/api">
+		<interceptors>
+			<interceptor name="trimInterceptor" class="net.xxs.interceptor.TrimInterceptor" />
+			<interceptor name="paramsInterceptor" class="net.xxs.interceptor.ParamsInterceptor" />
+			<interceptor-stack name="apiStack">
+				<interceptor-ref name="trimInterceptor" />
+				<interceptor-ref name="paramsInterceptor" />
+			</interceptor-stack>
+		</interceptors>
+		<default-interceptor-ref name="apiStack" />
+	</package>
+
+</struts>

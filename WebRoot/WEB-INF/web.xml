@@ -1,0 +1,398 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+
+	<display-name>XXS</display-name>
+	<description>XXS平台配置</description>
+
+	<context-param>
+		<param-name>webAppRootKey</param-name>
+		<param-value>card.webAppRoot</param-value>
+	</context-param>
+
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>classpath*:/applicationContext*.xml</param-value>
+	</context-param>
+
+	<filter>
+		<filter-name>encodingFilter</filter-name>
+		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+		<init-param>
+			<param-name>encoding</param-name>
+			<param-value>utf-8</param-value>
+		</init-param>
+		<init-param>
+			<param-name>forceEncoding</param-name>
+			<param-value>true</param-value>
+		</init-param>
+	</filter>
+
+	<filter>
+		<filter-name>encodingConvertFilter</filter-name>
+		<filter-class>net.xxs.filter.EncodingConvertFilter</filter-class>
+		<init-param>
+			<param-name>fromEncoding</param-name>
+			<param-value>ISO-8859-1</param-value>
+		</init-param>
+		<init-param>
+			<param-name>toEncoding</param-name>
+			<param-value>UTF-8</param-value>
+		</init-param>
+	</filter>
+
+	<filter>
+		<filter-name>accessDeniedFilter</filter-name>
+		<filter-class>net.xxs.filter.AccessDeniedFilter</filter-class>
+	</filter>
+
+	<filter>
+		<filter-name>articleListPageCacheFilter</filter-name>
+		<filter-class>net.xxs.filter.PageCacheFilter</filter-class>
+		<init-param>
+			<param-name>groups</param-name>
+			<param-value>articleList</param-value>
+		</init-param>
+		<init-param>
+			<param-name>parameterKeys</param-name>
+			<param-value>sign,pager.pageSize,pager.pageNumber</param-value>
+		</init-param>
+		<init-param>
+			<param-name>time</param-name>
+			<param-value>86400</param-value>
+		</init-param>
+	</filter>
+
+	<filter>
+		<filter-name>cardsListPageCacheFilter</filter-name>
+		<filter-class>net.xxs.filter.PageCacheFilter</filter-class>
+		<init-param>
+			<param-name>groups</param-name>
+			<param-value>cardsList</param-value>
+		</init-param>
+		<init-param>
+			<param-name>parameterKeys</param-name>
+			<param-value>sign,brand.id,regex:cardsAttributeIdMap\[\'\w+\'\],viewType,orderType,pager.pageSize,pager.pageNumber</param-value>
+		</init-param>
+		<init-param>
+			<param-name>time</param-name>
+			<param-value>86400</param-value>
+		</init-param>
+	</filter>
+
+	<filter>
+		<filter-name>commentListPageCacheFilter</filter-name>
+		<filter-class>net.xxs.filter.PageCacheFilter</filter-class>
+		<init-param>
+			<param-name>groups</param-name>
+			<param-value>commentList</param-value>
+		</init-param>
+		<init-param>
+			<param-name>parameterKeys</param-name>
+			<param-value>pager.pageSize,pager.pageNumber</param-value>
+		</init-param>
+		<init-param>
+			<param-name>time</param-name>
+			<param-value>86400</param-value>
+		</init-param>
+	</filter>
+
+	<filter>
+		<filter-name>leaveMessageListPageCacheFilter</filter-name>
+		<filter-class>net.xxs.filter.PageCacheFilter</filter-class>
+		<init-param>
+			<param-name>groups</param-name>
+			<param-value>leaveMessageList</param-value>
+		</init-param>
+		<init-param>
+			<param-name>parameterKeys</param-name>
+			<param-value>pager.pageSize,pager.pageNumber</param-value>
+		</init-param>
+		<init-param>
+			<param-name>time</param-name>
+			<param-value>86400</param-value>
+		</init-param>
+	</filter>
+
+	<filter>
+		<filter-name>captchaFilter</filter-name>
+		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+		<init-param>
+			<param-name>targetFilterLifecycle</param-name>
+			<param-value>true</param-value>
+		</init-param>
+	</filter>
+
+	<filter>
+		<filter-name>adminLoginCaptchaFilter</filter-name>
+		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+		<init-param>
+			<param-name>targetFilterLifecycle</param-name>
+			<param-value>true</param-value>
+		</init-param>
+	</filter>
+
+	<filter>
+		<filter-name>gzipFilter</filter-name>
+		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+		<init-param>
+			<param-name>targetFilterLifecycle</param-name>
+			<param-value>true</param-value>
+		</init-param>
+	</filter>
+
+	<filter>
+		<filter-name>cacheControlFilter</filter-name>
+		<filter-class>net.xxs.filter.CacheControlFilter</filter-class>
+		<init-param>
+			<param-name>expirationTime</param-name>
+			<param-value>0</param-value>
+		</init-param>
+	</filter>
+
+	<filter>
+		<filter-name>springSecurityFilterChain</filter-name>   
+		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+	</filter>
+
+	<filter>
+		<filter-name>openSessionInViewFilter</filter-name>
+		<filter-class>org.springframework.orm.hibernate3.support.OpenSessionInViewFilter</filter-class>
+		<init-param>
+			<param-name>excludeSuffixs</param-name>
+			<param-value>js,css,jpg,jpeg,gif,png,bmp,html</param-value>
+		</init-param>
+	</filter>
+
+	<filter>
+		<filter-name>struts</filter-name>
+		<filter-class>org.apache.struts2.dispatcher.ng.filter.StrutsPrepareAndExecuteFilter</filter-class>
+	</filter>
+
+	<filter>
+		<filter-name>urlRewriteFilter</filter-name>
+		<filter-class>org.tuckey.web.filters.urlrewrite.UrlRewriteFilter</filter-class>
+	</filter>
+
+	<filter>
+		<filter-name>systemFilter</filter-name>
+		<filter-class>net.xxs.filter.SystemFilter</filter-class>
+	</filter>
+
+	<filter-mapping>
+		<filter-name>encodingFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+	<!-- 
+	<filter-mapping>
+		<filter-name>encodingConvertFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	 -->
+
+	<filter-mapping>
+		<filter-name>accessDeniedFilter</filter-name>
+		<url-pattern>/install/data/*</url-pattern>
+	</filter-mapping>
+
+	<filter-mapping>
+		<filter-name>accessDeniedFilter</filter-name>
+		<url-pattern>*.conf</url-pattern>
+	</filter-mapping>
+
+	<filter-mapping>
+		<filter-name>accessDeniedFilter</filter-name>
+		<url-pattern>*.properties</url-pattern>
+	</filter-mapping>
+
+	<filter-mapping>
+		<filter-name>articleListPageCacheFilter</filter-name>
+		<url-pattern>/card/article_list/*</url-pattern>
+	</filter-mapping>
+
+	<filter-mapping>
+		<filter-name>cardsListPageCacheFilter</filter-name>
+		<url-pattern>/card/cards_list/*</url-pattern>
+	</filter-mapping>
+
+	<filter-mapping>
+		<filter-name>commentListPageCacheFilter</filter-name>
+		<url-pattern>/card/comment_list/*</url-pattern>
+	</filter-mapping>
+
+	<filter-mapping>
+		<filter-name>leaveMessageListPageCacheFilter</filter-name>
+		<url-pattern>/card/leave_message.htm</url-pattern>
+	</filter-mapping>
+
+	<filter-mapping>
+		<filter-name>captchaFilter</filter-name>
+		<url-pattern>/captcha.jpeg</url-pattern>
+	</filter-mapping>
+
+	<filter-mapping>
+		<filter-name>adminLoginCaptchaFilter</filter-name>
+		<url-pattern>/admin/login/*</url-pattern>
+	</filter-mapping>
+
+	<filter-mapping>
+		<filter-name>cacheControlFilter</filter-name>
+		<url-pattern>/card/cart_item!list.action</url-pattern>
+	</filter-mapping>
+
+	<filter-mapping>
+		<filter-name>cacheControlFilter</filter-name>
+		<url-pattern>/card/order!info.action</url-pattern>
+	</filter-mapping>
+
+	<filter-mapping>
+		<filter-name>cacheControlFilter</filter-name>
+		<url-pattern>/card/order!save.action</url-pattern>
+	</filter-mapping>
+
+	<filter-mapping>
+		<filter-name>cacheControlFilter</filter-name>
+		<url-pattern>/card/payment!submit.action</url-pattern>
+	</filter-mapping>
+
+	<filter-mapping>
+		<filter-name>cacheControlFilter</filter-name>
+		<url-pattern>/card/payment!payreturn.action</url-pattern>
+	</filter-mapping>
+
+	<filter-mapping>
+		<filter-name>cacheControlFilter</filter-name>
+		<url-pattern>/card/payment!paynotify.action</url-pattern>
+	</filter-mapping>
+
+	<filter-mapping>
+		<filter-name>cacheControlFilter</filter-name>
+		<url-pattern>/admin/order!edit.action</url-pattern>
+	</filter-mapping>
+
+	<filter-mapping>
+		<filter-name>cacheControlFilter</filter-name>
+		<url-pattern>/admin/order!process.action</url-pattern>
+	</filter-mapping>
+
+	<filter-mapping>
+		<filter-name>cacheControlFilter</filter-name>
+		<url-pattern>/admin/order!view.action</url-pattern>
+	</filter-mapping>
+
+	<filter-mapping>
+		<filter-name>gzipFilter</filter-name>
+		<url-pattern>*.action</url-pattern>
+	</filter-mapping>
+
+	<filter-mapping>
+		<filter-name>gzipFilter</filter-name>
+		<url-pattern>*.htm</url-pattern>
+	</filter-mapping>
+
+	<filter-mapping>
+		<filter-name>gzipFilter</filter-name>
+		<url-pattern>*.html</url-pattern>
+	</filter-mapping>
+
+	<filter-mapping>
+		<filter-name>gzipFilter</filter-name>
+		<url-pattern>*.css</url-pattern>
+	</filter-mapping>
+
+	<filter-mapping>
+		<filter-name>gzipFilter</filter-name>
+		<url-pattern>*.js</url-pattern>
+	</filter-mapping>
+
+	<filter-mapping>
+		<filter-name>springSecurityFilterChain</filter-name>
+		<url-pattern>/admin/*</url-pattern>
+	</filter-mapping>
+
+	<filter-mapping>
+		<filter-name>openSessionInViewFilter</filter-name>
+		<url-pattern>*.action</url-pattern>
+	</filter-mapping>
+
+	<filter-mapping>
+		<filter-name>openSessionInViewFilter</filter-name>
+		<url-pattern>*.htm</url-pattern>
+	</filter-mapping>
+
+	<filter-mapping>
+		<filter-name>struts</filter-name>
+		<url-pattern>*.action</url-pattern>
+		<dispatcher>REQUEST</dispatcher>
+		<dispatcher>FORWARD</dispatcher>
+	</filter-mapping>
+
+	<filter-mapping>
+		<filter-name>urlRewriteFilter</filter-name>
+		<url-pattern>*.htm</url-pattern>
+		<dispatcher>REQUEST</dispatcher>
+		<dispatcher>FORWARD</dispatcher>
+	</filter-mapping>
+
+	<filter-mapping>
+		<filter-name>systemFilter</filter-name>
+		<url-pattern>/SYSTEM</url-pattern>
+	</filter-mapping>
+
+	<servlet>
+		<servlet-name>JspSupportServlet</servlet-name>
+		<servlet-class>org.apache.struts2.views.JspSupportServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+
+	<jsp-config>
+		<taglib>
+			<taglib-uri>oscache</taglib-uri>
+			<taglib-location>/WEB-INF/tld/oscache.tld</taglib-location>
+		</taglib>
+	</jsp-config>
+
+	<listener>
+		<listener-class>org.springframework.web.util.WebAppRootListener</listener-class>
+	</listener>
+
+	<listener>
+		<listener-class>net.xxs.listener.InitializableServletContextListener</listener-class>
+	</listener>
+
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+
+	<listener>
+		<listener-class>org.springframework.web.util.IntrospectorCleanupListener</listener-class>
+	</listener>
+
+	<session-config>
+		<session-timeout>30</session-timeout>
+	</session-config>
+
+	<welcome-file-list>
+		<welcome-file>index.htm</welcome-file>
+		<welcome-file>index.html</welcome-file>
+		<welcome-file>index.jsp</welcome-file>
+	</welcome-file-list>
+
+	<error-page>
+		<exception-type>java.lang.Throwable</exception-type>
+		<location>/html/error_page.html</location>
+	</error-page>
+		<error-page>
+		<error-code>500</error-code>
+		<location>/html/error_page_500.html</location>
+	</error-page>
+	<error-page>
+		<error-code>404</error-code>
+		<location>/html/error_page_404.html</location>
+	</error-page>
+	<error-page>
+		<error-code>403</error-code>
+		<location>/html/error_page_403.html</location>
+	</error-page>
+
+</web-app>

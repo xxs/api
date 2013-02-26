@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xmlns="http://www.springframework.org/schema/beans" 
+	   xmlns:sec="http://www.springframework.org/schema/security"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+       http://www.springframework.org/schema/security
+       http://www.springframework.org/schema/security/spring-security-2.0.4.xsd"
+       default-lazy-init="true">
+	 <!-- Spring Security采用就近原则,有多个约束时,
+	 从上至下只要找到第一条满足就返回,因此因该将最严格的约束放在最前面,
+	 而将最宽松的约束放在最后面.auto-config属性可以让spring security
+	 为我们自动配置几种常用的权限控制机制，包括form,anonymous, rememberMe等。
+	 当然你也可以手工配置。
+	 -->  
+	
+	<sec:http auto-config="true" servlet-api-provision="false" access-denied-page="/html/error_page_access_denied.html">
+		<sec:form-login login-page="/admin/index.jsp" login-processing-url="/admin/login/check" default-target-url="/admin/page!main.action" authentication-failure-url="/admin/index.jsp" always-use-default-target="true"  />
+		<sec:logout invalidate-session="true" logout-success-url="/admin/index.jsp" logout-url="/admin/logout" />
+		
+		<!-- 后台登录 -->
+		<sec:intercept-url pattern="/admin/index.jsp" filters="none" />
+		<!-- 充值卡管理 -->
+		<sec:intercept-url pattern="/admin/cards!**" access="ROLE_CARDS" />
+		<!-- 充值卡规格管理 -->
+		<sec:intercept-url pattern="/admin/specification!**" access="ROLE_SPECIFICATION" />
+		<!-- 充值卡品牌管理 -->
+		<sec:intercept-url pattern="/admin/brand!**" access="ROLE_BRAND" />
+		<!-- 订单管理 -->
+		<sec:intercept-url pattern="/admin/order!**" access="ROLE_ORDER" />
+		<!-- 提现管理 -->
+		<sec:intercept-url pattern="/admin/withdraw!**" access="ROLE_WITHDRAW" />
+		<!-- 会员管理 -->
+		<sec:intercept-url pattern="/admin/member!**" access="ROLE_MEMBER" />
+		<!-- 会员等级管理 -->
+		<sec:intercept-url pattern="/admin/member_rank!**" access="ROLE_MEMBER_RANK" />
+		<!-- 会员注册项管理 -->
+		<sec:intercept-url pattern="/admin/member_attribute!**" access="ROLE_MEMBER_ATTRIBUTE" />
+		<!-- 银行卡管理 -->
+		<sec:intercept-url pattern="/admin/member_bank!**" access="ROLE_MEMBER_BANK" />
+		<!-- 商户管理 -->
+		<sec:intercept-url pattern="/admin/member_business!**" access="ROLE_MEMBER_BUSINESS" />
+		<!-- 在线留言管理 -->
+		<sec:intercept-url pattern="/admin/leave_message!**" access="ROLE_LEAVE_MESSAGE" />
+		<!-- 导航管理 -->
+		<sec:intercept-url pattern="/admin/navigation!**" access="ROLE_NAVIGATION" />
+		<!-- 文章管理 -->
+		<sec:intercept-url pattern="/admin/article!**" access="ROLE_ARTICLEE" />
+		<!-- 文章分类管理 -->
+		<sec:intercept-url pattern="/admin/article_category!**" access="ROLE_ARTICLE_CATEGORY" />
+		<!-- 友情链接管理 -->
+		<sec:intercept-url pattern="/admin/friend_link!**" access="ROLE_FRIEND_LINK" />
+		<!-- 页面模板管理 -->
+		<sec:intercept-url pattern="/admin/page_template!**" access="ROLE_PAGE_TEMPLATE" />
+		<!-- 邮件模板管理 -->
+		<sec:intercept-url pattern="/admin/mail_template!**" access="ROLE_MAIL_TEMPLATE" />
+		<!-- 缓存管理 -->
+		<sec:intercept-url pattern="/admin/cache!**" access="ROLE_CACHE" />
+		<!-- 生成静态管理 -->
+		<sec:intercept-url pattern="/admin/build_html!**" access="ROLE_BUILD_HTML" />
+		<!-- 管理员管理 -->
+		<sec:intercept-url pattern="/admin/admin!**" access="ROLE_ADMIN" />
+		<!-- 角色管理 -->
+		<sec:intercept-url pattern="/admin/role!**" access="ROLE_ROLE" />
+		<!-- 站内消息管理 -->
+		<sec:intercept-url pattern="/admin/message!**" access="ROLE_MESSAGE" />
+		<!-- 日志管理 -->
+		<sec:intercept-url pattern="/admin/log!**" access="ROLE_LOG" />
+		<!-- 系统设置 -->
+		<sec:intercept-url pattern="/admin/setting!**" access="ROLE_SETTING" />
+		<!-- 在线客服 -->
+		<sec:intercept-url pattern="/admin/instant_messaging!**" access="ROLE_INSTANT_MESSAGING" />
+		<!-- 支付方式管理 -->
+		<sec:intercept-url pattern="/admin/payment_config!**" access="ROLE_PAYMENT_CONFIG" />
+		<!-- 基础管理权限 -->
+		<sec:intercept-url pattern="/admin/**.action" access="ROLE_BASE" />
+	</sec:http>
+
+	<sec:authentication-provider user-service-ref="adminDetailsServiceImpl">
+		<sec:password-encoder hash="md5" />
+	</sec:authentication-provider>
+
+</beans>

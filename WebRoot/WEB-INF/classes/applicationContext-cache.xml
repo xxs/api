@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:oscache="http://www.springmodules.org/schema/oscache"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans
+	   http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+	   http://www.springmodules.org/schema/oscache
+	   http://www.springmodules.org/schema/cache/springmodules-oscache.xsd"
+	   default-lazy-init="true">
+
+    <oscache:config id="cacheProvider" configLocation="classpath:oscache.properties" />
+    
+	<oscache:annotations providerId="cacheProvider">
+		<oscache:caching id="areaCaching" cronExpression="0 1 * * *" refreshPeriod="86400" groups="area" />
+		<oscache:caching id="articleCategoryCaching" cronExpression="0 1 * * *" refreshPeriod="86400" groups="articleCategory" />
+		<oscache:caching id="articleCaching" cronExpression="0 1 * * *" refreshPeriod="86400" groups="article" />
+		<oscache:caching id="friendLinkCaching" cronExpression="0 1 * * *" refreshPeriod="86400" groups="friendLink" />
+		<oscache:caching id="cardsCaching" cronExpression="0 1 * * *" refreshPeriod="86400" groups="cards" />
+		<oscache:caching id="memberAttributeCaching" cronExpression="0 1 * * *" refreshPeriod="86400" groups="memberAttribute" />
+		<oscache:caching id="memberRankCaching" cronExpression="0 1 * * *" refreshPeriod="86400" groups="memberRank" />
+		<oscache:caching id="navigationCaching" cronExpression="0 1 * * *" refreshPeriod="86400" groups="navigation" />
+		<oscache:caching id="paymentConfigCaching" cronExpression="0 1 * * *" refreshPeriod="86400" groups="paymentConfig" />
+		
+		<oscache:flushing id="areaFlushing" groups="area" />
+		<oscache:flushing id="articleCategoryFlushing" groups="articleCategory" />
+		<oscache:flushing id="articleFlushing" groups="article" />
+		<oscache:flushing id="friendLinkFlushing" groups="friendLink" />
+		<oscache:flushing id="cardsFlushing" groups="cards" />
+		<oscache:flushing id="memberAttributeFlushing" groups="memberAttribute" />
+		<oscache:flushing id="memberRankFlushing" groups="memberRank" />
+		<oscache:flushing id="navigationFlushing" groups="navigation" />
+		<oscache:flushing id="paymentConfigFlushing" groups="paymentConfig" />
+	</oscache:annotations>
+
+</beans>

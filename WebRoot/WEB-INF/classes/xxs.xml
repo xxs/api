@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xxs> 
+	<description>主配置文件</description>  
+	<setting> 
+		<systemName>名臣福利-收卡平台</systemName>  
+		<systemVersion>1.0.1</systemVersion>  
+		<systemDescription>名臣福利,收购手机充值卡,手机充值卡回收,手机充值卡回购,手机充值卡变现,手机充值卡提现,一卡通回收,Q币卡点卡回收</systemDescription>  
+		<contextPath/>  
+		<imageUploadPath>/upload/image/{date(yyyyMM)}</imageUploadPath>  
+		<imageBrowsePath>/upload/image</imageBrowsePath>  
+		<adminLoginUrl>/admin/index.jsp</adminLoginUrl>  
+		<adminLoginProcessingUrl>/admin/login/check</adminLoginProcessingUrl>  
+		<isShowPoweredInfo>true</isShowPoweredInfo>  
+		<cardName>收卡平台</cardName>  
+		<cardUrl>http://localhost</cardUrl>  
+		<cardLogoPath>/images/logo.jpg</cardLogoPath>  
+		<hotSearch>名臣福利,收购手机充值卡,手机充值卡回收,手机充值卡回购,手机充值卡变现,手机充值卡提现,一卡通回收,Q币卡点卡回收</hotSearch>  
+		<metaKeywords>名臣福利收卡平台</metaKeywords>  
+		<metaDescription></metaDescription>  
+		<address>广东省佛山市禅城区江湾一路18号</address>  
+		<phone>4006118420</phone>  
+		<zipCode>400000</zipCode>  
+		<email>admin@xxs.net</email>  
+		<certtext>粤ICP备12031800号</certtext>  
+		<currencyType>CNY</currencyType>  
+		<currencySign>￥</currencySign>  
+		<currencyUnit>元</currencyUnit>  
+		<priceScale>2</priceScale>  
+		<priceRoundType>roundHalfUp</priceRoundType>  
+		<uploadLimit>1024</uploadLimit>  
+		<isLoginFailureLock>true</isLoginFailureLock>  
+		<loginFailureLockCount>5</loginFailureLockCount>  
+		<loginFailureLockTime>5</loginFailureLockTime>  
+		<isRegisterEnabled>true</isRegisterEnabled>
+		<withdrawEveryDayCount>0</withdrawEveryDayCount>
+		<withdrawEveryDayMoney>0</withdrawEveryDayMoney>
+		<withdrawEveryMaxMoney>0</withdrawEveryMaxMoney>
+		<withdrawEveryMinMoney>0</withdrawEveryMinMoney>  
+		<withdrawMaxMoney>0</withdrawMaxMoney>
+		<withdrawMaxCount>0</withdrawMaxCount>  
+		<watermarkImagePath>/images/watermark.jpg</watermarkImagePath>  
+		<watermarkPosition>bottomRight</watermarkPosition>  
+		<watermarkAlpha>50</watermarkAlpha>  
+		<bigCardsImageWidth>500</bigCardsImageWidth>  
+		<bigCardsImageHeight>500</bigCardsImageHeight>  
+		<smallCardsImageWidth>300</smallCardsImageWidth>  
+		<smallCardsImageHeight>300</smallCardsImageHeight>  
+		<thumbnailCardsImageWidth>140</thumbnailCardsImageWidth>  
+		<thumbnailCardsImageHeight>140</thumbnailCardsImageHeight>  
+		<defaultBigCardsImagePath>/images/default_big_cards_image.jpg</defaultBigCardsImagePath>  
+		<defaultSmallCardsImagePath>/images/default_small_cards_image.jpg</defaultSmallCardsImagePath>  
+		<defaultThumbnailCardsImagePath>/images/default_thumbnail_cards_image.jpg</defaultThumbnailCardsImagePath>  
+		<smtpFromMail>test@xxs.net</smtpFromMail>  
+		<smtpHost>smtp.xxs.net</smtpHost>  
+		<smtpPort>25</smtpPort>  
+		<smtpUsername>test</smtpUsername>  
+		<smtpPassword></smtpPassword>  
+		<scoreType>orderAmount</scoreType>  
+		<scoreScale>1.0</scoreScale>  
+		<buildHtmlDelayTime>0</buildHtmlDelayTime>  
+		<isGzipEnabled>false</isGzipEnabled>  
+		<isInstantMessagingEnabled>true</isInstantMessagingEnabled>  
+		<instantMessagingPosition>right</instantMessagingPosition>  
+		<instantMessagingTitle>7 × 24小时服务</instantMessagingTitle>  
+		<isLeaveMessageEnabled>true</isLeaveMessageEnabled>  
+		<isLeaveMessageCaptchaEnabled>true</isLeaveMessageCaptchaEnabled>  
+		<leaveMessageDisplayType>direct</leaveMessageDisplayType>  
+		<isCommentEnabled>true</isCommentEnabled>  
+		<isCommentCaptchaEnabled>true</isCommentCaptchaEnabled>  
+		<commentAuthority>member</commentAuthority>  
+		<commentDisplayType>direct</commentDisplayType> 
+	</setting>  
+	<paymentProduct> 
+		<yeepay> 
+			<name>易宝支付</name>  
+			<description>中国领先的独立第三方支付平台，致力于为广大商家和消费者提供“安全、简单、快乐”的专业电子支付解决方案和服务。</description>  
+			<bargainorIdName>商户编号</bargainorIdName>  
+			<bargainorKeyName>密钥</bargainorKeyName>  
+			<currencyTypes>CNY</currencyTypes>  
+			<logoPath>/template/admin/images/payment/yeepay_icon.gif</logoPath>  
+			<className>net.xxs.payment.Yeepay</className> 
+		</yeepay>  
+		<yeepayforzy> 
+			<name>易宝非银行卡支付(专业版)</name>  
+			<description>中国领先的独立第三方支付平台，批量支付</description>  
+			<bargainorIdName>商户编号</bargainorIdName>  
+			<bargainorKeyName>密钥</bargainorKeyName>  
+			<currencyTypes>CNY</currencyTypes>  
+			<logoPath>/template/admin/images/payment/yeepay_icon.gif</logoPath>  
+			<className>net.xxs.payment.YeepayForZY</className> 
+		</yeepayforzy>
+		<ofpay> 
+			<name>殴飞消耗点卡接口</name>  
+			<description>点卡消耗平台</description>  
+			<bargainorIdName>商户编号</bargainorIdName>  
+			<bargainorKeyName>密钥</bargainorKeyName>  
+			<currencyTypes>CNY</currencyTypes>  
+			<logoPath>/template/admin/images/payment/ofpay_icon.gif</logoPath>  
+			<className>net.xxs.payment.OfPay</className> 
+		</ofpay>  
+		<szfpay> 
+			<name>神州付直连接口</name>  
+			<description>神州付直连接口</description>  
+			<bargainorIdName>商户编号</bargainorIdName>  
+			<bargainorKeyName>密钥</bargainorKeyName>  
+			<currencyTypes>CNY</currencyTypes>  
+			<logoPath>/template/admin/images/payment/szfpay_icon.gif</logoPath>  
+			<className>net.xxs.payment.SzfPay</className> 
+		</szfpay>  
+	</paymentProduct>  
+	<logConfig> 
+		<item operation="系统设置" actionClass="net.xxs.action.admin.SettingAction" actionMethod="update"/>  
+		<item operation="添加管理员" actionClass="net.xxs.action.admin.AdminAction" actionMethod="save"/>  
+		<item operation="删除管理员" actionClass="net.xxs.action.admin.AdminAction" actionMethod="delete"/>  
+		<item operation="编辑管理员" actionClass="net.xxs.action.admin.AdminAction" actionMethod="update"/>  
+		<item operation="添加会员" actionClass="net.xxs.action.admin.MemberAction" actionMethod="save"/>  
+		<item operation="删除会员" actionClass="net.xxs.action.admin.MemberAction" actionMethod="delete"/>  
+		<item operation="编辑会员" actionClass="net.xxs.action.admin.MemberAction" actionMethod="update"/>  
+		<item operation="添加充值卡分类" actionClass="net.xxs.action.admin.CardsCategoryAction" actionMethod="save"/>  
+		<item operation="删除充值卡分类" actionClass="net.xxs.action.admin.CardsCategoryAction" actionMethod="delete"/>  
+		<item operation="编辑充值卡分类" actionClass="net.xxs.action.admin.CardsCategoryAction" actionMethod="update"/>  
+		<item operation="添加充值卡" actionClass="net.xxs.action.admin.CardsAction" actionMethod="save"/>  
+		<item operation="删除充值卡" actionClass="net.xxs.action.admin.CardsAction" actionMethod="delete"/>  
+		<item operation="编辑充值卡" actionClass="net.xxs.action.admin.CardsAction" actionMethod="update"/>  
+		<item operation="添加文章分类" actionClass="net.xxs.action.admin.ArticleCategoryAction" actionMethod="save"/>  
+		<item operation="删除文章分类" actionClass="net.xxs.action.admin.ArticleCategoryAction" actionMethod="delete"/>  
+		<item operation="编辑文章分类" actionClass="net.xxs.action.admin.ArticleCategoryAction" actionMethod="update"/>  
+		<item operation="添加文章" actionClass="net.xxs.action.admin.ArticleAction" actionMethod="save"/>  
+		<item operation="删除文章" actionClass="net.xxs.action.admin.ArticleAction" actionMethod="delete"/>  
+		<item operation="编辑文章" actionClass="net.xxs.action.admin.ArticleAction" actionMethod="update"/>  
+		<item operation="删除订单" actionClass="net.xxs.action.admin.OrderAction" actionMethod="delete"/>  
+		<item operation="编辑订单" actionClass="net.xxs.action.admin.OrderAction" actionMethod="update"/>  
+		<item operation="订单支付" actionClass="net.xxs.action.admin.OrderAction" actionMethod="payment"/>  
+		<item operation="订单完成" actionClass="net.xxs.action.admin.OrderAction" actionMethod="completed"/>  
+		<item operation="订单作废" actionClass="net.xxs.action.admin.OrderAction" actionMethod="invalid"/> 
+	</logConfig> 
+	<memberLogConfig> 
+		<item operation="会员登录" actionClass="net.xxs.action.card.MemberAction" actionMethod="login"/>  
+	</memberLogConfig> 
+</xxs>

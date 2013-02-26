@@ -1,0 +1,138 @@
+@charset "utf-8";
+body{font-size:12px;background:#fff;margin:0px;padding:0px;}
+div,ul,li,dl,dt,dd,ol,img,h1,h2,h3,h4,h5,h6,form,input,p{margin:0px;padding:0px;}
+ul,li{list-style:none;}
+img{vertical-align:top;border:0;}
+h1,h2,h3,h4,h5,h6{font-size:12px;font-weight:normal;}
+.clear{clear:both;width:0px;height:0px;line-height:0px;font-size:0;overflow:hidden;}
+/* header */
+.header{width:100%;height:81px;background:url(../images/chongz.gif) repeat-x;}
+.header1000{height:81px;width:995px;margin:0 auto;}
+.header1000 h1{float:left;}
+.top{margin-left:45px;float:left;height:81px;width:500px;}
+.top li{float:left;list-style:none;height:81px;line-height:81px;background:url(../images/chongzhong.gif) no-repeat right;width:98px;text-align:center;}
+.top li a{color:#fff;font-weight:bold;font-size:14px; text-decoration:none;}
+.topRight{float:right;height:81px;line-height:81px;color:#fff;}
+.topRight a{color:#fff;text-decoration:none;}
+
+
+.content{width:995px;margin:20px auto 0 auto;overflow:hidden;}
+.contentLeft{float:left;width:200px;border:1px solid #e1e2e2;margin:0 auto 10px auto;overflow:hidden; min-height:700px;}
+.contentLeft p{line-height:25px;padding-left:15px;font-size:12px;}
+.contentLeft .heng{border-bottom:1px solid #e1e2e2;border-top:1px solid #e1e2e2;border-right:0px;border-left:0px;height:10px;}
+.contentLeft li{height:36px;line-height:36px;text-align:center;font-size:14px;}
+.contentLeft li:hover{background:#f8f8f8;}
+.contentLeft li a{color:#666;text-decoration:none;width:150px;float:left;}
+.contentLeft li a:hover{color:#f00;font-weight:bold;background:url(../images/chongz_20.jpg) no-repeat right;}
+	
+.contentRight{float:right;width:770px;margin-bottom:15px;}
+/* tab */
+.tab {width:760px;margin-top:15px;}
+.tab_menu {clear:both;overflow:hidden;}
+.tab_menu li{border:1px solid #e1e2e2; border-bottom:none;border-right:none;float:left;color:#666;text-align:center;padding:0 15px;cursor:pointer;height:40px;line-height:40px;background:#efefef url(../images/xian.jpg) bottom no-repeat;font-size:14px;font-weight:bold;}
+.tab_menu li.hover {background:#fff;color:#666;}
+.tab_menu li.selected {color:#600;background:#fff;}
+.tab_box {clear:both;border-top:none;overflow:hidden;padding-top:0px;}
+.hide{display:none}
+.tab_box_1{clear:both;border-top:none;overflow:hidden;padding-top:0px;}
+		
+.katong{height:120px;}
+.fangz{background:url(../images/chongz_16.jpg) no-repeat;height:37px;border-bottom:1px solid #ebebeb;font-weight:bold;font-size:24px;color:#666;padding-left:30px;line-height:34px;margin-bottom:10px;}
+.fangz a{font-weight:none;color:#f00;text-decoration:none;}
+.red{color:#F00;margin-bottom:10px;}
+.hei a{color:#f00;text-decoration:none;margin:auto 5px auto 5px;}
+.hei p{line-size:12px;}
+.hei span{line-size:12px;width:20px;}
+.anniu{width:110px;height:30px;margin-top:9px;}
+
+.xuan{margin-top:30px;}
+.xuanTitle{height:42px;background:url(../images/xian2_03.gif) no-repeat bottom;}
+.xuanTitle li{border:1px solid #e1e2e2;border-bottom:none;height:41px;float:left;width:86px;line-height:41px;text-align:center;color:#666;font-size:14px;background:#f5f5f5;}
+.xuanTitle li:hover{background:#fff;cursor:pointer;}
+.xuanText{border:1px solid #e1e2e2;border-top:none;width:768px;height:264px;}
+.miane{float:left;width:505px;height:243px;border-right:1px solid #e1e2e2;margin:10px 0px;}
+.yuan{width:450px;height:60px;}
+.xx{float:left;width:86px;line-height:50px;margin-left:40px;}
+.dan{float:left;width:275px;line-height:30px;height:60px;}
+.ab{margin:0 0 0 28px;}
+.qren{height:30px;line-height:30px;margin-left:40px;}
+.que{height:30px;float:left;line-height:30px;width:86px;}
+.yun{float:left;width:86px;color:#f00;}
+.ka{margin-left:60px;height:31px;line-height:31px;margin-bottom:10px;}
+.kaText{background:url(../images/chongz_39.jpg) no-repeat;height:31px;width:210px;border:none;margin-left:40px;text-indent:12px;line-height:31px;}
+.tijiao{background:url(../images/chongz_43.gif) no-repeat;width:110px;height:30px;border:none; cursor:pointer;float:left;text-indent:200px;}
+.anniun{margin-left:40px;margin-top:30px;}
+/* button */
+input.red_button {
+	width: 110px;
+	height: 30px;
+	display: block;
+	float: left;
+	margin-right: 10px;
+	font-size: 14px;
+	font-weight: bold;
+	letter-spacing: 5px;
+	color: #ffff;
+	outline: none;
+	cursor: pointer;
+	border: none;
+	background: url(../images/btn_bj.gif) 0px 0px no-repeat;
+}
+
+input.red_button:hover {
+	background: url(../images/btn_bj.gif) 0px -30px no-repeat;
+}
+.red_button{background:url(../images/btn_bj.gif) no-repeat 0px 0px;width:110px;height:30px;cursor:pointer;float:left;text-indent:200px;}
+.red_button .btn_text{width:110px;height:30px;line-size:30px;font-size:18px;color:#000;}
+
+.zhong{float:right;width:261px;height:243px;margin:10px 0px;background:url(../images/dsf.gif) no-repeat 25px 54px;}
+.wenZi{float:right;margin:20px 10px 0 0;font-size:12px;width:165px;color:#666;line-height:18px;}
+.wenZi b{color:#f00;font-size:14px;}
+
+.zuiJin{float:right;width:770px;margin-top:30px;height:250px;}
+.zuiJinTitle{height:42px;width:86px;border:1px solid #e1e2e2;border-bottom:none;height:42px;text-align:center;line-height:42px;color:#666;}
+.tiSi{height:42px;margin-left:10px;color:#666;float:left;}
+.din{float:left;width:360px;height:42px;line-height:42px;}
+.shuai{float:left;}
+.xin{background:url(../images/dff.gif) no-repeat;flaot:right;height:26px;width:85px;border:none; cursor:pointer;margin-top:5px;}
+.zuiJinText{height:185px;border:1px solid #e1e2e2;border-top:none;background:url(../images/xian2_03.gif) no-repeat;}
+
+.biao{width:745px;height:130px;margin:0 auto;border:1px solid #e1e2e2;margin-bottom:10px;}
+.biaoTitle{height:35px;border-bottom:1px solid #e1e2e2;background:#f2f2f2;}
+.biaoTitle li{float:left;border-right:1px solid #e1e2e2;text-align:center;line-height:35px;}
+.biaoText{height:90px;width:745px;text-align:center;line-height:90px;margin-bottom:10px;}
+
+.memberCenter table.stateTable {width: 100%;border: 2px solid #e8e8e8;overflow:hidden;}
+.memberCenter table.stateTable th {line-height: 30px;padding-left: 10px;text-align: center;border-bottom: 1px solid #f1f1f1;background-color: #f6f6f6;}
+.memberCenter table.stateTable td {line-height: 28px;padding: 3px 10px;text-align: left;color: #595959;word-break: break-all;border-bottom: 1px solid #f1f1f1;}
+.memberCenter table.stateTable tr:hover {background-color: #fafafa}
+.memberCenter table.stateTable .title {width: 70px;font-weight: bold;}
+
+.memberCenter table.listTable {width: 100%;border: 2px solid #e8e8e8;margin-top:15px;overflow:hidden;}
+.memberCenter table.listTable th {width: 150px;line-height: 45px;	padding-right: 10px;text-align: center;color: #333333;background-color: #fafafa;}
+.memberCenter table.listTable tr:hover th {background-color: #eeeeee;}
+.memberCenter table.listTable td {line-height: 35px;padding: 3px 5px;	text-align: center;color: #595959;}
+.memberCenter table.listTable tr:hover td {background-color: #fafafa;}
+
+.memberCenter table.inputTable {width: 100%;border: 2px solid #e8e8e8;margin-top:15px;overflow:hidden;}
+.memberCenter table.inputTable th {	width: 150px;line-height: 35px;	padding-right: 10px;text-align: right;color: #333333;background-color: #fafafa;}
+.memberCenter table.inputTable tr:hover th {background-color: #eeeeee;}
+.memberCenter table.inputTable td {	line-height: 30px;padding: 3px 5px;	text-align: left;color: #595959;}
+.memberCenter table.inputTable tr:hover td {background-color: #fafafa;}
+
+.memberCenter table.tabTable {width: 100%;border: 2px solid #e8e8e8;margin-top:-1px;overflow:hidden;}
+.memberCenter table.tabTable th {	width: 150px;line-height: 35px;	padding-right: 10px;text-align: right;color: #333333;background-color: #fafafa;}
+.memberCenter table.tabTable td {	line-height: 30px;padding: 3px 5px;	text-align: left;color: #595959;}
+.memberCenter table.tabTable tr:hover td {background-color: #fafafa;}
+
+.pager {float: right;clear: both;margin-top:15px;margin-bottom:15px;}
+.pager li {line-height: 18px;display: block;float: left;padding: 0px 5px;margin: 0px 3px;font-size: 12px;border: 1px solid #cccccc;}
+.pager li:hover {color: #D6060D;border: 1px solid #D6060D;}
+.pager li:hover a {color: #D6060D;}
+.pager li a {color: #464646;}
+.pager li span {color: #cfcfcf;}
+.pager li.currentPage {border: 1px solid #D6060D;background-color: #D6060D;}
+.pager li.currentPage span {font-weight: bold;color: #ffffff;}
+.pager li.pageInfo {margin-right: 5px;color: #464646;border: none;background: none;}
+	
+.bottom{clear:both;height:25px;line-height:25px;text-align:center;width:760px;color:#929292;margin:0 auto 50px;}

@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xmlns="http://www.springframework.org/schema/beans" 
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+       http://www.springframework.org/schema/aop
+       http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context-2.5.xsd
+       http://www.springframework.org/schema/tx
+       http://www.springframework.org/schema/tx/spring-tx-2.5.xsd"
+       default-lazy-init="true">
+
+	<aop:config />
+	<!-- Spring 扫描包范围  ，命名空间xmlns:tx="http://www.springframework.org/schema/tx：： -->
+	<context:component-scan base-package="net.xxs" />
+	<context:property-placeholder location="classpath*:/database.properties"/>
+	
+	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
+		<property name="driverClass" value="${jdbc.driver}" />
+		<property name="jdbcUrl" value="${jdbc.url}" />
+		 <property name="properties" ref="dataSourceProperties"/>
+		<!-- 2012.06 -->
+		<property name="user" value="${jdbc.username}" />
+		<property name="password" value="${jdbc.password}" />
+		
+		<property name="initialPoolSize" value="${pool.initialPoolSize}" />
+		<property name="minPoolSize" value="${pool.minPoolSize}" />
+		<property name="maxPoolSize" value="${pool.maxPoolSize}" />
+		<property name="maxIdleTime" value="${pool.maxIdleTime}" />
+		<property name="acquireIncrement" value="${pool.acquireIncrement}" />
+		<property name="checkoutTimeout" value="${pool.checkoutTimeout}" />
+		<property name="maxIdleTimeExcessConnections" value="${pool.maxIdleTimeExcessConnections}" />
+		<!-- 2012.06 -->
+		
+		 
+	</bean>
+	<!-- 2012.06 -->
+	<bean id="dataSourceProperties" class="net.xxs.bean.PropertiesEncryptFactoryBean">  
+        <property name="properties">  
+            <props>  
+                <prop key="user">142F176AD8A4E125</prop>  
+                <prop key="password">142F176AD8A4E125</prop>  
+            </props>  
+        </property>  
+    </bean>  
+    <!-- 2012.06 -->
+	
+	
+	<bean id="databaseNamingStrategy" class="net.xxs.common.DatabaseNamingStrategy">
+		<property name="tablePrefix" value="${namingStrategy.tablePrefix}" />
+		<property name="isAddUnderscores" value="${namingStrategy.isAddUnderscores}" />
+		<property name="maxLength" value="${namingStrategy.maxLength}" />
+    </bean>
+    
+	<bean id="sessionFactory" class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="entityInterceptor" ref="entityInterceptor" />
+		<property name="eventListeners">
+			<map>
+				<entry key="post-commit-insert">
+					<ref bean="entityPostInsertEventListener" />
+				</entry>
+				<entry key="post-update">
+					<ref bean="entityPostUpdateEventListener" />
+				</entry>
+				<entry key="post-delete">
+					<ref bean="entityPostDeleteEventListener" />
+				</entry>
+			</map>
+		</property>
+		<property name="namingStrategy" ref="databaseNamingStrategy" />
+		<property name="hibernateProperties">
+			<value>
+				hibernate.dialect=${hibernate.dialect}
+				hibernate.hbm2ddl.auto=${hibernate.hbm2ddl.auto}
+				hibernate.show_sql=${hibernate.show_sql}
+				hibernate.format_sql=${hibernate.format_sql}
+				hibernate.cache.use_second_level_cache=${hibernate.cache.use_second_level_cache}
+				hibernate.cache.provider_class=${hibernate.cache.provider_class}
+				hibernate.cache.use_query_cache=${hibernate.cache.use_query_cache}
+				hibernate.jdbc.fetch_size=${hibernate.jdbc.fetch_size}
+				hibernate.jdbc.batch_size=${hibernate.jdbc.batch_size}
+			</value>
+		</property>
+		<property name="packagesToScan" value="net.xxs.entity" />
+	</bean>
+	
+	<bean id="springUtil" class="net.xxs.util.SpringUtil" lazy-init="false" />
+    
+	<bean id="freemarkerManager" class="net.xxs.common.FreemarkerManager" />
+	
+	<bean id="jacksonObjectMapper" class="org.codehaus.jackson.map.ObjectMapper" lazy-init="false" />
+    
+	<bean id="transactionManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	
+	<!-- 事务管理交由Spring管理  -->
+	<tx:annotation-driven transaction-manager="transactionManager" />
+	
+	<bean id="captchaService" class="com.octo.captcha.service.image.DefaultManageableImageCaptchaService">
+		<property name="captchaEngine">
+			<bean class="net.xxs.common.CaptchaEngine" />
+		</property>
+		<property name="minGuarantedStorageDelayInSeconds" value="600" />
+	</bean>
+	
+	<bean id="javaMailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+		<property name="javaMailProperties">
+			<props>
+				<prop key="mail.smtp.auth">true</prop>
+				<prop key="mail.smtp.timeout">25000</prop>
+				<!--
+				<prop key="mail.smtp.starttls.enable">true</prop>  
+				<prop key="mail.smtp.socketFactory.class">javax.net.ssl.SSLSocketFactory</prop>
+				-->
+			</props>
+		</property>
+	</bean>
+	
+	<bean id="taskExecutor" class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
+		<property name="corePoolSize" value="5" />
+		<property name="maxPoolSize" value="50" />
+		<property name="queueCapacity" value="1000" />
+		<property name="keepAliveSeconds" value="60" />
+	</bean>
+	
+	<bean id="scheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean" />
+	
+	<bean id="txProxyTemplate" abstract="true" class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
+		<property name="transactionManager" ref="transactionManager" />
+		<property name="transactionAttributes">
+			<props>
+				<prop key="*">PROPAGATION_REQUIRED</prop>
+			</props>
+		</property>
+	</bean>
+	
+	<bean id="quartzHtmlServiceImpl" parent="txProxyTemplate">
+		<property name="target" ref="htmlServiceImpl" />
+	</bean>
+
+</beans>

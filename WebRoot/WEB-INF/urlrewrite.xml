@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE urlrewrite PUBLIC "-//tuckey.org//DTD UrlRewrite 3.0//EN" "http://tuckey.org/res/dtds/urlrewrite3.0.dtd">
+<urlrewrite>
+
+	<rule>
+		<note>文章分类</note>
+		<from>^/card/article_list/(\w+).htm$</from>
+		<to type="forward">/card/article!list.action?sign=$1</to>
+	</rule>
+	
+	<rule>
+		<note>充值卡分类</note>
+		<from>^/card/cards_list/(\w+).htm$</from>
+		<to type="forward">/card/cards!list.action?sign=$1</to>
+	</rule>
+	
+	<rule>
+		<note>在线留言</note>
+		<from>^/card/leave_message.htm$</from>
+		<to type="forward">/card/leave_message!list.action</to>
+	</rule>
+	
+	<rule>
+		<note>成功案例</note>
+		<from>^/card/deposit_success.htm$</from>
+		<to type="forward">/card/deposit!successList.action</to>
+	</rule>
+	
+	<rule>
+		<note>推广注册</note>
+		<from>^/(\w+).htm$</from>
+		<to type="forward">/card/member!register.action?id=$1</to>
+	</rule>
+</urlrewrite>

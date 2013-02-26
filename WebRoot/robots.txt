@@ -1,0 +1,7 @@
+# robots.txt for XXS
+
+User-agent: *
+Disallow: /admin/
+Disallow: /install/
+Disallow: /template/
+Disallow: /upload/
