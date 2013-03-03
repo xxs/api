@@ -39,8 +39,8 @@ public class Withdraw extends BaseEntity {
 	
 	private WithdrawStatus withdrawStatus; // 提现状态
 
-	private MemberBank memberBank;// 会员
-	private Member member;// 会员
+	private Bank bank;// 银行卡
+	private Business business;// 商户
 
 	@Enumerated
 	@Column(nullable = false)
@@ -115,30 +115,30 @@ public class Withdraw extends BaseEntity {
 		this.rememo = rememo;
 	}
 
+	
 	@ManyToOne(fetch = FetchType.LAZY)
-	@ForeignKey(name = "fk_withdraw_member")
-	public Member getMember() {
-		return member;
+	@ForeignKey(name = "fk_withdraw_bank")
+	public Bank getBank() {
+		return bank;
 	}
 
-	public void setMember(Member member) {
-		this.member = member;
+	public void setBank(Bank bank) {
+		this.bank = bank;
 	}
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-	@ForeignKey(name = "fk_withdraw_memberBank")
-	public MemberBank getMemberBank() {
-		return memberBank;
+	@ForeignKey(name = "fk_withdraw_business")
+	public Business getBusiness() {
+		return business;
 	}
 
-	public void setMemberBank(MemberBank memberBank) {
-		this.memberBank = memberBank;
+	public void setBusiness(Business business) {
+		this.business = business;
 	}
 
 	public String getBanknum() {
 		return banknum;
 	}
-
 	public void setBanknum(String banknum) {
 		this.banknum = banknum;
 	}

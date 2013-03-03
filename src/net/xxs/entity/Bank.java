@@ -18,7 +18,7 @@ import org.hibernate.annotations.ForeignKey;
  */
 
 @Entity
-public class MemberBank extends BaseEntity {
+public class Bank extends BaseEntity {
 
 	private static final long serialVersionUID = 3599029355500655209L;
 
@@ -31,7 +31,7 @@ public class MemberBank extends BaseEntity {
 	private String bankdetail;
 	private String memo;
 	private Boolean isDefault;
-	private Member member; // 会员
+	private Business business; // 会员
 	
 	private Set<Withdraw> withdrawSet = new HashSet<Withdraw>();// 提现记录
 
@@ -93,15 +93,16 @@ public class MemberBank extends BaseEntity {
 	}
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-	@ForeignKey(name = "fk_member_bank_member")
-	public Member getMember() {
-		return member;
+	@ForeignKey(name = "fk_bank_business")
+	public Business getBusiness() {
+		return business;
 	}
 
-	public void setMember(Member member) {
-		this.member = member;
+	public void setBusiness(Business business) {
+		this.business = business;
 	}
-
+	
+	
 	@OneToMany(mappedBy = "memberBank", fetch = FetchType.LAZY)
 	@OrderBy("createDate desc")	
 	public Set<Withdraw> getWithdrawSet() {

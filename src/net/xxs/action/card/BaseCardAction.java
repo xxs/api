@@ -13,8 +13,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import net.xxs.bean.Pager;
 import net.xxs.bean.Setting;
-import net.xxs.entity.Member;
-import net.xxs.service.MemberService;
+import net.xxs.entity.Business;
+import net.xxs.service.BusinessService;
 import net.xxs.util.JsonUtil;
 import net.xxs.util.SettingUtil;
 
@@ -59,8 +59,8 @@ public class BaseCardAction extends ActionSupport {
 	protected String logInfo;// 日志记录信息
 	protected String redirectUrl;// 跳转URL
 	
-	@Resource(name = "memberServiceImpl")
-	protected MemberService memberService;
+	@Resource(name = "businessServiceImpl")
+	protected BusinessService businessService;
 	
 	// 获取系统配置信息
 	public Setting getSetting() {
@@ -73,13 +73,13 @@ public class BaseCardAction extends ActionSupport {
 	}
 	
 	// 获取当前登录会员,若未登录则返回null
-	public Member getLoginMember() {
-		String memberId = (String) getSession(Member.MEMBER_ID_SESSION_NAME);
+	public Business getLoginBusiness() {
+		String memberId = (String) getSession(Business.BUSINESS_ID_SESSION_NAME);
 		if (StringUtils.isEmpty(memberId)) {
 			return null;
 		}
-		Member loginMember = memberService.get(memberId);
-		return loginMember;
+		Business loginBusiness = businessService.get(memberId);
+		return loginBusiness;
 	}
 	
 	// 判断是否为添加

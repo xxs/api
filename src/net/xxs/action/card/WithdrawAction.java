@@ -6,10 +6,10 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import net.xxs.bean.Setting;
-import net.xxs.entity.MemberBank;
+import net.xxs.entity.Bank;
 import net.xxs.entity.Withdraw;
 import net.xxs.entity.Withdraw.WithdrawStatus;
-import net.xxs.service.MemberBankService;
+import net.xxs.service.BankService;
 import net.xxs.service.WithdrawService;
 import net.xxs.util.SerialNumberUtil;
 import net.xxs.util.SettingUtil;
@@ -37,13 +37,13 @@ public class WithdrawAction extends BaseCardAction {
 
 	private static final long serialVersionUID = 7391785904288731356L;
 	private Withdraw withdraw;
-	private MemberBank memberBank;
+	private Bank memberBank;
 	private List<Withdraw> withdrawList;
 	
 	@Resource(name = "withdrawServiceImpl")
 	private WithdrawService withdrawService;
 	@Resource(name = "memberBankServiceImpl")
-	private MemberBankService memberBankService;
+	private BankService memberBankService;
 	
 	// 申请提现
 	public String apply() {
@@ -51,8 +51,8 @@ public class WithdrawAction extends BaseCardAction {
 	}
 	// 预存款列表
 	public String list() {
-		pager = withdrawService.getWithdeawPager(getLoginMember(), pager);
-		withdrawList = withdrawService.getApplyWithdrawList(getLoginMember());
+		pager = withdrawService.getWithdeawPager(getLoginBusiness(), pager);
+		withdrawList = withdrawService.getApplyWithdrawList(getLoginBusiness());
 		return LIST;
 	}
 	
@@ -83,7 +83,7 @@ public class WithdrawAction extends BaseCardAction {
 				return ERROR;
 			}
 		}
-		withdrawList = withdrawService.getApplyWithdrawList(getLoginMember());
+		withdrawList = withdrawService.getApplyWithdrawList(getLoginBusiness());
 		if(0 != setting.getWithdrawMaxCount()&&null != setting.getWithdrawMaxCount()){
 			if(null != withdrawList&&withdrawList.size() >= setting.getWithdrawMaxCount()){
 				addActionError("目前已有"+withdrawList.size()+"条提现申请正在处理中！请等待管理员审核后再增加新提现！");
@@ -110,22 +110,22 @@ public class WithdrawAction extends BaseCardAction {
 		}
 		
 		//判断提现金额是否满足提现设置中的setting范围
-		MemberBank pt = memberBankService.get(memberBank.getId());
+		Bank pt = memberBankService.get(memberBank.getId());
 		withdraw.setWithdrawSn(SerialNumberUtil.buildWithdrawSn());
 		withdraw.setMoney(withdraw.getMoney());
-		withdraw.setTotalMoney(withdraw.getMoney().multiply(BigDecimal.valueOf(getLoginMember().getMemberRank().getLossrate())));
+		withdraw.setTotalMoney(withdraw.getMoney().multiply(getLoginBusiness().getLossrate()));
 		withdraw.setMessage("会员自主提现");
 		withdraw.setRememo(null);
 		withdraw.setWithdrawStatus(WithdrawStatus.apply);
-		withdraw.setLossrate(BigDecimal.valueOf(getLoginMember().getMemberRank().getLossrate()));
-		withdraw.setMember(getLoginMember());
+		withdraw.setLossrate(getLoginBusiness().getLossrate());
+		withdraw.setBusiness(getLoginBusiness());
 		withdraw.setMemo(withdraw.getMemo());
 		//存储瞬态信息
 		withdraw.setBankname(pt.getBankname());
 		withdraw.setBanknum(pt.getBanknum());
 		withdraw.setOpenname(pt.getOpenname());
 		
-		withdraw.setMemberBank(pt);
+		withdraw.setBank(pt);
 		withdrawService.save(withdraw);
 		redirectUrl = "withdraw!list.action";
 		return SUCCESS;
@@ -146,10 +146,10 @@ public class WithdrawAction extends BaseCardAction {
 	public void setWithdrawList(List<Withdraw> withdrawList) {
 		this.withdrawList = withdrawList;
 	}
-	public MemberBank getMemberBank() {
+	public Bank getMemberBank() {
 		return memberBank;
 	}
-	public void setMemberBank(MemberBank memberBank) {
+	public void setMemberBank(Bank memberBank) {
 		this.memberBank = memberBank;
 	}
 	

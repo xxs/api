@@ -3,8 +3,8 @@ package net.xxs.service;
 import java.util.Date;
 
 import net.xxs.bean.Pager;
+import net.xxs.entity.Business;
 import net.xxs.entity.Deposit;
-import net.xxs.entity.Member;
 import net.xxs.entity.Deposit.DepositType;
 
 /**
@@ -25,8 +25,8 @@ public interface DepositService extends BaseService<Deposit, String> {
 	 *            
 	 * @return 充值记录分页对象
 	 */
-	public Pager getDepositPager(Member member, Pager pager);
+	public Pager getDepositPager(Business business, Pager pager);
 	
-	public Pager getDepositPager(Member member,Date startDate,Date endDate,DepositType depositType,Pager pager);
+	public Pager getDepositPager(Business business,Date startDate,Date endDate,DepositType depositType,Pager pager);
 	
 }

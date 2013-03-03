@@ -1,10 +1,9 @@
 package net.xxs.service;
 
-import java.util.Date;
 import java.util.List;
 
 import net.xxs.bean.Pager;
-import net.xxs.entity.Member;
+import net.xxs.entity.Business;
 import net.xxs.entity.Withdraw;
 import net.xxs.entity.Withdraw.WithdrawStatus;
 
@@ -32,7 +31,7 @@ public interface WithdrawService extends BaseService<Withdraw, String> {
 	 *            
 	 * @return 提现记录分页对象
 	 */
-	public Pager getWithdeawPager(Member member, Pager pager);
+	public Pager getWithdeawPager(Business business, Pager pager);
 	
 	/**
 	 * 获取未处理的提现单
@@ -45,7 +44,7 @@ public interface WithdrawService extends BaseService<Withdraw, String> {
 	 *            
 	 * @return 未处理
 	 */
-	public List<Withdraw> getApplyWithdrawList(Member member);
+	public List<Withdraw> getApplyWithdrawList(Business business);
 
 	public Pager getWithdrawPager(WithdrawStatus withdrawStatus,Pager pager);
 }

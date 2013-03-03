@@ -1,20 +1,26 @@
 package net.xxs.dao;
 
 import net.xxs.bean.Pager;
-import net.xxs.entity.MemberBusiness;
-import net.xxs.entity.MemberBusiness.ResultType;
+import net.xxs.entity.Business;
+import net.xxs.entity.Business.ResultType;
 
 /**
  * Dao接口 - 商户
  */
 
-public interface MemberBusinessDao extends BaseDao<MemberBusiness, String> {
+public interface BusinessDao extends BaseDao<Business, String> {
 	
 	public Long getUnprocessedMemberBusinessApplyCount();
 	
 	public Long getUnprocessedMemberBusinessCount();
 	
 	public Pager getMemberBusinessPager(ResultType resultType,Pager pager);
+	
+	/**
+	 * 根据用户名获取会员对象,若会员不存在,则返回null（不区分大小写）
+	 * 
+	 */
+	public Business getBusinessByUsername(String username);
 	/**
 	 * 获取最后生成的商户编号
 	 * 

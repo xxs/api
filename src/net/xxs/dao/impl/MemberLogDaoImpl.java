@@ -1,7 +1,7 @@
 package net.xxs.dao.impl;
 
 import net.xxs.dao.MemberLogDao;
-import net.xxs.entity.MemberLog;
+import net.xxs.entity.BusinessLog;
 
 import org.springframework.stereotype.Repository;
 
@@ -10,6 +10,6 @@ import org.springframework.stereotype.Repository;
  */
 
 @Repository("memberLogDaoImpl")
-public class MemberLogDaoImpl extends BaseDaoImpl<MemberLog, String> implements MemberLogDao {
+public class MemberLogDaoImpl extends BaseDaoImpl<BusinessLog, String> implements MemberLogDao {
 
 }

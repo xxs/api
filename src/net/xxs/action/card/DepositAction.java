@@ -4,7 +4,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
-import net.xxs.entity.Member;
+import net.xxs.entity.Business;
 import net.xxs.entity.PaymentConfig;
 import net.xxs.service.DepositService;
 import net.xxs.service.PaymentConfigService;
@@ -25,7 +25,7 @@ import org.apache.struts2.convention.annotation.ParentPackage;
 public class DepositAction extends BaseCardAction {
 
 	private static final long serialVersionUID = -3091246496095700007L;
-	private Member member;
+	private Business business;
 	@Resource(name = "depositServiceImpl")
 	private DepositService depositService;
 	@Resource(name = "paymentConfigServiceImpl")
@@ -33,7 +33,7 @@ public class DepositAction extends BaseCardAction {
 	
 	// 预存款列表
 	public String list() {
-		pager = depositService.getDepositPager(getLoginMember(), pager);
+		pager = depositService.getDepositPager(getLoginBusiness(), pager);
 		return LIST;
 	}
 	// 获取成功案例列表
@@ -50,13 +50,12 @@ public class DepositAction extends BaseCardAction {
 	public List<PaymentConfig> getNonDepositOfflinePaymentConfigList() {
 		return paymentConfigService.getNonDepositOfflinePaymentConfigList();
 	}
-
-	public Member getMember() {
-		return member;
+	public Business getBusiness() {
+		return business;
 	}
-
-	public void setMember(Member member) {
-		this.member = member;
+	public void setBusiness(Business business) {
+		this.business = business;
 	}
+	
 
 }

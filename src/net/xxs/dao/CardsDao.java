@@ -6,7 +6,6 @@ import java.util.List;
 import net.xxs.bean.Pager;
 import net.xxs.entity.Brand;
 import net.xxs.entity.Cards;
-import net.xxs.entity.Member;
 
 /**
  * Dao接口 - 充值卡

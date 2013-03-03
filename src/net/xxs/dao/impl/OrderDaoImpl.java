@@ -6,7 +6,7 @@ import java.util.List;
 
 import net.xxs.bean.Pager;
 import net.xxs.dao.OrderDao;
-import net.xxs.entity.Member;
+import net.xxs.entity.Business;
 import net.xxs.entity.Order;
 import net.xxs.entity.Order.OrderStatus;
 
@@ -34,14 +34,14 @@ public class OrderDaoImpl extends BaseDaoImpl<Order, String> implements
 		}
 	}
 
-	public Pager getOrderPager(Member member, Pager pager) {
-		return super.findPager(pager, Restrictions.eq("member", member));
+	public Pager getOrderPager(Business business, Pager pager) {
+		return super.findPager(pager, Restrictions.eq("member", business));
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<Order> getOrderList(Member member, OrderStatus orderStatus) {
-		String hql = "from Order as order where order.member = :member and order.orderStatus = :orderStatus";
-		return getSession().createQuery(hql).setParameter("member", member)
+	public List<Order> getOrderList(Business business, OrderStatus orderStatus) {
+		String hql = "from Order as order where order.business = :business and order.orderStatus = :orderStatus";
+		return getSession().createQuery(hql).setParameter("business", business)
 				.setParameter("orderStatus", orderStatus).list();
 	}
 
@@ -78,8 +78,8 @@ public class OrderDaoImpl extends BaseDaoImpl<Order, String> implements
 		if(order.getCardNum()!=null&&!order.getCardNum().isEmpty()){
 			lists.add(Restrictions.eq("cardNum", order.getCardNum()));
 		}
-		if(order.getMember()!=null){
-			lists.add(Restrictions.ge("member", order.getMember()));
+		if(order.getBusiness()!=null){
+			lists.add(Restrictions.ge("business", order.getBusiness()));
 		}
 		if(order.getPaymentConfig()!=null&&!"".equals(order.getPaymentConfig().getId())){
 			lists.add(Restrictions.ge("paymentConfig", order.getPaymentConfig()));

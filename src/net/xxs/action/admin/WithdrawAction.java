@@ -5,14 +5,14 @@ import java.math.BigDecimal;
 import javax.annotation.Resource;
 
 import net.xxs.bean.Setting;
+import net.xxs.entity.Business;
 import net.xxs.entity.Deposit;
 import net.xxs.entity.Deposit.DepositType;
-import net.xxs.entity.Member;
 import net.xxs.entity.Withdraw;
 import net.xxs.entity.Withdraw.WithdrawStatus;
+import net.xxs.service.BusinessService;
 import net.xxs.service.CacheService;
 import net.xxs.service.DepositService;
-import net.xxs.service.MemberService;
 import net.xxs.service.WithdrawService;
 import net.xxs.util.SettingUtil;
 
@@ -34,8 +34,8 @@ public class WithdrawAction extends BaseAdminAction {
 
 	@Resource(name = "withdrawServiceImpl")
 	private WithdrawService withdrawService;
-	@Resource(name = "memberServiceImpl")
-	private MemberService memberService;
+	@Resource(name = "businessServiceImpl")
+	private BusinessService businessService;
 	@Resource(name = "depositServiceImpl")
 	private DepositService depositService;
 	@Resource(name = "cacheServiceImpl")
@@ -76,13 +76,13 @@ public class WithdrawAction extends BaseAdminAction {
 			return ajax(Status.error, "此单已作废!");
 		} else {
 			//修改会员预存款操作
-			Member member = withdraw.getMember();
-			BigDecimal newDeposit =  member.getDeposit().subtract(withdraw.getMoney());
+			Business business = withdraw.getBusiness();
+			BigDecimal newDeposit =  business.getDeposit().subtract(withdraw.getMoney());
 			if(Double.parseDouble(newDeposit.toString())<0){
 				return ajax(Status.error, "用户预存款余额不足，不能提现!");
 			}
-			member.setDeposit(newDeposit);
-			memberService.update(member);
+			business.setDeposit(newDeposit);
+			businessService.update(business);
 			
 			Deposit deposit = new Deposit();
 			deposit.setDepositType(DepositType.memberWithdraw);
@@ -90,7 +90,7 @@ public class WithdrawAction extends BaseAdminAction {
 			deposit.setDebit(withdraw.getMoney());
 			deposit.setLossrate(withdraw.getLossrate());//保存交易时的手续费率
 			deposit.setBalance(newDeposit);
-			deposit.setMember(member);
+			deposit.setBusiness(business);
 			depositService.save(deposit);
 			
 			withdraw.setWithdrawStatus(WithdrawStatus.success);

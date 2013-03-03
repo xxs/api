@@ -6,7 +6,7 @@ import javax.annotation.Resource;
 
 import net.xxs.bean.Pager;
 import net.xxs.dao.WithdrawDao;
-import net.xxs.entity.Member;
+import net.xxs.entity.Business;
 import net.xxs.entity.Withdraw;
 import net.xxs.entity.Withdraw.WithdrawStatus;
 import net.xxs.service.WithdrawService;
@@ -35,8 +35,8 @@ public class WithdrawServiceImpl extends BaseServiceImpl<Withdraw, String> imple
 	}
 
 	@Transactional(readOnly = true)
-	public Pager getWithdeawPager(Member member, Pager pager) {
-		return withdrawDao.getWithdeawPager(member, pager);
+	public Pager getWithdeawPager(Business business, Pager pager) {
+		return withdrawDao.getWithdeawPager(business, pager);
 	}
 
 	@Transactional(readOnly = true)
@@ -44,8 +44,8 @@ public class WithdrawServiceImpl extends BaseServiceImpl<Withdraw, String> imple
 		return withdrawDao.getUnprocessedWithdrawCount();
 	}
 	@Transactional(readOnly = true)
-	public List<Withdraw> getApplyWithdrawList(Member member) {
-		return withdrawDao.getApplyWithdrawList(member);
+	public List<Withdraw> getApplyWithdrawList(Business business) {
+		return withdrawDao.getApplyWithdrawList(business);
 	}
 	@Transactional(readOnly = true)
 	public Pager getWithdrawPager(WithdrawStatus withdrawStatus, Pager pager) {

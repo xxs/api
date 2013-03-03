@@ -5,8 +5,9 @@ import java.util.Set;
 import javax.annotation.Resource;
 
 import net.xxs.entity.Member;
-import net.xxs.entity.MemberBank;
-import net.xxs.service.MemberBankService;
+import net.xxs.entity.Bank;
+import net.xxs.service.BusinessService;
+import net.xxs.service.BankService;
 import net.xxs.service.MemberService;
 
 import org.apache.struts2.convention.annotation.ParentPackage;
@@ -21,21 +22,21 @@ import com.opensymphony.xwork2.validator.annotations.Validations;
  */
 
 @ParentPackage("admin")
-public class MemberBankAction extends BaseAdminAction {
+public class BankAction extends BaseAdminAction {
 
 	private static final long serialVersionUID = -5451875129461788865L;
 
-	private MemberBank memberBank;
+	private Bank bank;
 
 	@Resource(name = "memberBankServiceImpl")
-	private MemberBankService memberBankService;
-	@Resource(name = "memberServiceImpl")
-	private MemberService memberService;
+	private BankService memberBankService;
+	@Resource(name = "businessServiceImpl")
+	private BusinessService businessService;
 
 	// 是否已存在 username ajax验证
 	public String checkUsername() {
-		String username = memberBank.getMember().getUsername();
-		if (!memberService.isExistByUsername(username)) {
+		String username = bank.getBusiness().getUsername();
+		if (!businessService.isExistByUsername(username)) {
 			return ajax("false");
 		} else {
 			return ajax("true");
@@ -82,9 +83,9 @@ public class MemberBankAction extends BaseAdminAction {
 			addActionError("银行卡号已绑定过!");
 			return ERROR;
 		}
-		Set<MemberBank> memberBankSet = member.getMemberBankSet();
-		if (memberBankSet != null && MemberBank.MAX_MEMBERBANK_COUNT != null && memberBankSet.size() >= MemberBank.MAX_MEMBERBANK_COUNT) {
-			addActionError("每个会员只允许最多添加" + MemberBank.MAX_MEMBERBANK_COUNT + "个提现账户!");
+		Set<Bank> memberBankSet = member.getMemberBankSet();
+		if (memberBankSet != null && Bank.MAX_MEMBERBANK_COUNT != null && memberBankSet.size() >= Bank.MAX_MEMBERBANK_COUNT) {
+			addActionError("每个会员只允许最多添加" + Bank.MAX_MEMBERBANK_COUNT + "个提现账户!");
 			return ERROR;
 		}
 		memberBank.setMember(member);
@@ -110,17 +111,17 @@ public class MemberBankAction extends BaseAdminAction {
 	)
 	@InputConfig(resultName = "error")
 	public String update() {
-		MemberBank persistent = memberBankService.get(id);
+		Bank persistent = memberBankService.get(id);
 		BeanUtils.copyProperties(memberBank, persistent, new String[] {"id", "createDate", "modifyDate", "member"});
 		memberBankService.update(persistent);
 		redirectUrl = "member_bank!list.action";
 		return SUCCESS;
 	}
-	public MemberBank getMemberBank() {
+	public Bank getMemberBank() {
 		return memberBank;
 	}
 
-	public void setMemberBank(MemberBank memberBank) {
+	public void setMemberBank(Bank memberBank) {
 		this.memberBank = memberBank;
 	}
 }

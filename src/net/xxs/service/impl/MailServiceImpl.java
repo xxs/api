@@ -13,7 +13,7 @@ import javax.servlet.ServletContext;
 
 import net.xxs.bean.MailTemplateConfig;
 import net.xxs.bean.Setting;
-import net.xxs.entity.Member;
+import net.xxs.entity.Business;
 import net.xxs.service.MailService;
 import net.xxs.util.SettingUtil;
 import net.xxs.util.TemplateConfigUtil;
@@ -132,13 +132,13 @@ public class MailServiceImpl implements MailService, ServletContextAware {
 		}
 	}
 	
-	public void sendPasswordRecoverMail(Member member) {
+	public void sendPasswordRecoverMail(Business business) {
 		Map<String, Object> data = getCommonData();
-		data.put("member", member);
+		data.put("business", business);
 		MailTemplateConfig mailTemplateConfig = TemplateConfigUtil.getMailTemplateConfig(MailTemplateConfig.PASSWORD_RECOVER);
 		String subject = mailTemplateConfig.getSubject();
 		String templatePath = mailTemplateConfig.getTemplatePath();
-		sendMail(subject, templatePath, data, member.getEmail());
+		sendMail(subject, templatePath, data, business.getEmail());
 	}
 	
 	/**

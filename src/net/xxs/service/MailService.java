@@ -2,7 +2,7 @@ package net.xxs.service;
 
 import java.util.Map;
 
-import net.xxs.entity.Member;
+import net.xxs.entity.Business;
 
 /**
  * Service接口 - 邮件服务
@@ -59,6 +59,6 @@ public interface MailService {
 	 *            会员
 	 * 
 	 */
-	public void sendPasswordRecoverMail(Member member);
+	public void sendPasswordRecoverMail(Business business);
 	
 }

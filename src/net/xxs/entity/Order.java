@@ -56,7 +56,7 @@ public class Order extends BaseEntity {
 	private String bankAccount;// 收款银行账号
 	
 	private Product product;// 充值卡
-	private Member member;// 会员
+	private Business business;// 商户
 	private PaymentConfig paymentConfig;// 支付方式
 	private Deposit deposit;// 预存款
 	
@@ -154,14 +154,16 @@ public class Order extends BaseEntity {
 	}
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-	@ForeignKey(name = "fk_order_member")
-	public Member getMember() {
-		return member;
+	@ForeignKey(name = "fk_order_business")
+	public Business getBusiness() {
+		return business;
 	}
 
-	public void setMember(Member member) {
-		this.member = member;
+	public void setBusiness(Business business) {
+		this.business = business;
 	}
+	
+	
 	
 	@OneToOne(fetch = FetchType.LAZY)
 	@ForeignKey(name = "fk_order_payment_config")

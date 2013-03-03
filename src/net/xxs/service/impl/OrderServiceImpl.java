@@ -6,7 +6,7 @@ import javax.annotation.Resource;
 
 import net.xxs.bean.Pager;
 import net.xxs.dao.OrderDao;
-import net.xxs.entity.Member;
+import net.xxs.entity.Business;
 import net.xxs.entity.Order;
 import net.xxs.service.OrderService;
 
@@ -34,8 +34,8 @@ public class OrderServiceImpl extends BaseServiceImpl<Order, String> implements 
 	}
 	
 	@Transactional(readOnly = true)
-	public Pager getOrderPager(Member member, Pager pager) {
-		return orderDao.getOrderPager(member, pager);
+	public Pager getOrderPager(Business business, Pager pager) {
+		return orderDao.getOrderPager(business, pager);
 	}
 	
 	@Transactional(readOnly = true)

@@ -3,7 +3,7 @@ package net.xxs.util;
 import java.util.UUID;
 
 import net.xxs.service.CardsService;
-import net.xxs.service.MemberBusinessService;
+import net.xxs.service.BusinessService;
 import net.xxs.service.OrderService;
 import net.xxs.service.ProductService;
 import net.xxs.service.WithdrawService;
@@ -109,7 +109,7 @@ public class SerialNumberUtil {
 	 * @return 商户编号
 	 */
 	public static String buildBusinessNumber() {
-		MemberBusinessService memberBusinessService = (MemberBusinessService) SpringUtil.getBean("memberBusinessServiceImpl");
+		BusinessService memberBusinessService = (BusinessService) SpringUtil.getBean("memberBusinessServiceImpl");
 		String businessNumber;
 		do {
 			String uuid = UUID.randomUUID().toString();

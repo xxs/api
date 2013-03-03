@@ -9,7 +9,7 @@ import javax.persistence.Transient;
  */
 
 @Entity
-public class MemberLog extends BaseEntity {
+public class BusinessLog extends BaseEntity {
 
 
 	private static final long serialVersionUID = 4125525234189474300L;

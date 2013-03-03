@@ -2,9 +2,8 @@ package net.xxs.action.card;
 
 import javax.annotation.Resource;
 
-import net.xxs.entity.Member;
-import net.xxs.entity.MemberBusiness;
-import net.xxs.service.MemberBusinessService;
+import net.xxs.entity.Business;
+import net.xxs.service.BusinessService;
 
 import org.apache.struts2.convention.annotation.InterceptorRef;
 import org.apache.struts2.convention.annotation.InterceptorRefs;
@@ -25,60 +24,52 @@ public class BusinessAction extends BaseCardAction {
 
 	private static final long serialVersionUID = 8691965706902473480L;
 	
-	private Member member;
-	private MemberBusiness memberBusiness;
+	private Business business;
 	
-	@Resource(name = "memberBusinessServiceImpl")
-	private MemberBusinessService memberBusinessService;
+	@Resource(name = "businessServiceImpl")
+	private BusinessService businessService;
 	
 	// 商户信息
 	public String info() {
-		member = getLoginMember();
+		business = getLoginBusiness();
 		return "info";
 	}
 	// 商户信息
 	public String doc() {
-		member = getLoginMember();
+		business = getLoginBusiness();
 		return "doc";
 	}
 	// 商户信息
 	public String help() {
-		member = getLoginMember();
+		business = getLoginBusiness();
 		return "help";
 	}
 	// 账户
 	public String edit() {
-		memberBusiness = memberBusinessService.get(id);
+		business = businessService.get(id);
 		return LIST;
 	}
 	// 设置默认
 	public String check() {
-		member = getLoginMember();
-		memberBusiness = memberBusinessService.get(id);
-		memberBusinessService.update(memberBusiness);
+		business = getLoginBusiness();
+		business = businessService.get(id);
+		businessService.update(business);
 		return LIST;
 	}
 
 	// 账户更新
 	@InputConfig(resultName = "error")
 	public String update() {
-		memberBusinessService.update(memberBusiness);
+		businessService.update(business);
 		return SUCCESS;
 	}
-
-	public Member getMember() {
-		return member;
+	public Business getBusiness() {
+		return business;
+	}
+	public void setBusiness(Business business) {
+		this.business = business;
 	}
 
-	public void setMember(Member member) {
-		this.member = member;
-	}
-	public MemberBusiness getMemberBusiness() {
-		return memberBusiness;
-	}
-	public void setMemberBusiness(MemberBusiness memberBusiness) {
-		this.memberBusiness = memberBusiness;
-	}
 
 
 }

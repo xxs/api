@@ -4,9 +4,7 @@ import java.util.List;
 
 import net.xxs.bean.Pager;
 import net.xxs.dao.WithdrawDao;
-import net.xxs.entity.Brand;
-import net.xxs.entity.Cards;
-import net.xxs.entity.Member;
+import net.xxs.entity.Business;
 import net.xxs.entity.Withdraw;
 import net.xxs.entity.Withdraw.WithdrawStatus;
 
@@ -32,8 +30,8 @@ public class WithdrawDaoImpl extends BaseDaoImpl<Withdraw, String> implements Wi
 		}
 	}
 
-	public Pager getWithdeawPager(Member member, Pager pager) {
-		return super.findPager(pager, Restrictions.eq("member", member));
+	public Pager getWithdeawPager(Business business, Pager pager) {
+		return super.findPager(pager, Restrictions.eq("business",business ));
 	}
 	
 	public Long getUnprocessedWithdrawCount() {
@@ -41,9 +39,9 @@ public class WithdrawDaoImpl extends BaseDaoImpl<Withdraw, String> implements Wi
 		return (Long) getSession().createQuery(hql).setParameter("withdrawStatus", WithdrawStatus.apply).uniqueResult();
 	}
 	@SuppressWarnings("unchecked")
-	public List<Withdraw> getApplyWithdrawList(Member member) {
-		String hql = "from Withdraw as withdraw where withdraw.withdrawStatus = :status and withdraw.member = :member order by withdraw.createDate desc";
-		return getSession().createQuery(hql).setParameter("status", WithdrawStatus.apply).setParameter("member", member).list();
+	public List<Withdraw> getApplyWithdrawList(Business business) {
+		String hql = "from Withdraw as withdraw where withdraw.withdrawStatus = :status and withdraw.business = :business order by withdraw.createDate desc";
+		return getSession().createQuery(hql).setParameter("status", WithdrawStatus.apply).setParameter("business", business).list();
 	}
 	public Pager getWithdrawPager(WithdrawStatus withdrawStatus,Pager pager) {
 		Criteria criteria = getSession().createCriteria(Withdraw.class);

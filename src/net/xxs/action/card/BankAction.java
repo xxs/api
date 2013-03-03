@@ -4,9 +4,9 @@ import java.util.Set;
 
 import javax.annotation.Resource;
 
-import net.xxs.entity.Member;
-import net.xxs.entity.MemberBank;
-import net.xxs.service.MemberBankService;
+import net.xxs.entity.Bank;
+import net.xxs.entity.Business;
+import net.xxs.service.BankService;
 
 import org.apache.struts2.convention.annotation.InterceptorRef;
 import org.apache.struts2.convention.annotation.InterceptorRefs;
@@ -31,38 +31,38 @@ public class BankAction extends BaseCardAction {
 	
 	private static final long serialVersionUID = -4623009405964163795L;
 	
-	private Member member;
-	private MemberBank memberBank;
+	private Business business;
+	private Bank bank;
 	
-	@Resource(name = "memberBankServiceImpl")
-	private MemberBankService memberBankService;
+	@Resource(name = "bankServiceImpl")
+	private BankService bankService;
 	
 	// 账户列表
 	public String list() {
-		member = getLoginMember();
+		business = getLoginBusiness();
 		return LIST;
 	}
 	// 编辑
 	public String edit() {
-		memberBank = memberBankService.get(id);
+		bank = bankService.get(id);
 		return INPUT;
 	}
 	// 添加
 	public String add() {
-		Member loginMember = getLoginMember();
-		Set<MemberBank> memberBankSet = loginMember.getMemberBankSet();
-		if (memberBankSet != null && MemberBank.MAX_MEMBERBANK_COUNT != null && memberBankSet.size() >= MemberBank.MAX_MEMBERBANK_COUNT) {
-			addActionError("只允许最多添加" + MemberBank.MAX_MEMBERBANK_COUNT + "个提现账户!");
+		Business loginBusiness = getLoginBusiness();
+		Set<Bank> bankSet = loginBusiness.getBankSet();
+		if (bankSet != null && Bank.MAX_MEMBERBANK_COUNT != null && bankSet.size() >= Bank.MAX_MEMBERBANK_COUNT) {
+			addActionError("只允许最多添加" + Bank.MAX_MEMBERBANK_COUNT + "个提现账户!");
 			return ERROR;
 		}
 		return INPUT;
 	}
 	// 设置默认
 	public String check() {
-		member = getLoginMember();
-		memberBank = memberBankService.get(id);
-		memberBank.setIsDefault(true);
-		memberBankService.update(memberBank);
+		business = getLoginBusiness();
+		bank = bankService.get(id);
+		bank.setIsDefault(true);
+		bankService.update(bank);
 		return LIST;
 	}
 
@@ -78,9 +78,9 @@ public class BankAction extends BaseCardAction {
 		)
 	@InputConfig(resultName = "error")
 	public String update() {
-		MemberBank persistent = memberBankService.get(id);
-		BeanUtils.copyProperties(memberBank, persistent, new String[] {"id", "createDate", "modifyDate", "member"});
-		memberBankService.update(memberBank);
+		Bank persistent = bankService.get(id);
+		BeanUtils.copyProperties(bank, persistent, new String[] {"id", "createDate", "modifyDate", "business"});
+		bankService.update(bank);
 		if(null == redirectUrl){
 			redirectUrl = "bank!list.action";
 		}
@@ -89,7 +89,7 @@ public class BankAction extends BaseCardAction {
 	// Ajax验证银行账号是否存在
 	@InputConfig(resultName = "ajaxError")
 	public String ajaxBankNumVerify() throws Exception {
-		return ajax(memberBankService.isExistByBankNumber(memberBank.getBanknum()));
+		return ajax(bankService.isExistByBankNumber(bank.getBanknum()));
 	}
 	// 账户添加
 	@Validations(
@@ -103,32 +103,32 @@ public class BankAction extends BaseCardAction {
 		)
 	@InputConfig(resultName = "error")
 	public String save() {
-		member = getLoginMember();
-		Set<MemberBank> memberBankSet = member.getMemberBankSet();
-		if (memberBankSet != null && MemberBank.MAX_MEMBERBANK_COUNT != null && memberBankSet.size() >= MemberBank.MAX_MEMBERBANK_COUNT) {
-			addActionError("只允许最多添加" + MemberBank.MAX_MEMBERBANK_COUNT + "个提现账户!");
+		business = getLoginBusiness();
+		Set<Bank> bankSet = business.getBankSet();
+		if (bankSet != null && Bank.MAX_MEMBERBANK_COUNT != null && bankSet.size() >= Bank.MAX_MEMBERBANK_COUNT) {
+			addActionError("只允许最多添加" + Bank.MAX_MEMBERBANK_COUNT + "个提现账户!");
 			return ERROR;
 		}
-		memberBank.setMember(member);
-		memberBankService.save(memberBank);
+		bank.setBusiness(business);
+		bankService.save(bank);
 		if(null == redirectUrl){
 			redirectUrl = "bank!list.action";
 		}
 		return SUCCESS;
 	}
-	public Member getMember() {
-		return member;
+	public Business getBusiness() {
+		return business;
+	}
+	public void setBusiness(Business business) {
+		this.business = business;
+	}
+	public Bank getBank() {
+		return bank;
+	}
+	public void setBank(Bank bank) {
+		this.bank = bank;
 	}
 
-	public void setMember(Member member) {
-		this.member = member;
-	}
-	public MemberBank getMemberBank() {
-		return memberBank;
-	}
-	public void setMemberBank(MemberBank memberBank) {
-		this.memberBank = memberBank;
-	}
-
+	
 
 }

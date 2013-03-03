@@ -3,8 +3,8 @@ package net.xxs.service.impl;
 import javax.annotation.Resource;
 
 import net.xxs.dao.MemberLogDao;
-import net.xxs.entity.MemberLog;
-import net.xxs.service.MemberLogService;
+import net.xxs.entity.BusinessLog;
+import net.xxs.service.BusinessLogService;
 
 import org.springframework.stereotype.Service;
 
@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
  */
 
 @Service("memberLogServiceImpl")
-public class MemberLogServiceImpl extends BaseServiceImpl<MemberLog, String> implements MemberLogService {
+public class BusinessLogServiceImpl extends BaseServiceImpl<BusinessLog, String> implements BusinessLogService {
 
 	@Resource(name = "memberLogDaoImpl")
 	public void setBaseDao(MemberLogDao memberLogDao) {

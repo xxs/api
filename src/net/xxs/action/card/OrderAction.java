@@ -12,7 +12,7 @@ import javax.annotation.Resource;
 import net.xxs.bean.Card;
 import net.xxs.directive.PaymentResultMethod;
 import net.xxs.entity.Brand;
-import net.xxs.entity.Member;
+import net.xxs.entity.Business;
 import net.xxs.entity.Order;
 import net.xxs.entity.Order.OrderStatus;
 import net.xxs.entity.OrderLog;
@@ -121,7 +121,7 @@ public class OrderAction extends BaseCardAction {
 	)
 	@InputConfig(resultName = "error")
 	public String save() {
-		Member loginMember = getLoginMember();
+		Business loginBusiness = getLoginBusiness();
 		Product product = productService.load(productId); 
 		paymentConfig = paymentConfigService.load(paymentConfig.getId());//获取支付方式
 		Brand brand = product.getCards().getBrand();//为order准备brandId
@@ -142,7 +142,7 @@ public class OrderAction extends BaseCardAction {
 		order.setPaymentConfigName(paymentConfig.getName());
 		order.setAmount(SettingUtil.setPriceScale(product.getPrice()));//默认充值卡面额为订单金额
 		order.setMemo(memo);
-		order.setMember(loginMember);
+		order.setBusiness(loginBusiness);
 		order.setPaymentConfig(paymentConfig);
 		order.setProductSn(product.getProductSn());
 		order.setProductName(product.getName());//货品名称
@@ -214,7 +214,7 @@ public class OrderAction extends BaseCardAction {
 		if(null == cardList){
 			return ajax(Status.error,"请至少输入一个卡密组合!");
 		}
-		Member loginMember = getLoginMember();
+		Business loginBusiness = getLoginBusiness();
 		Product product = productService.load(productId);
 		paymentConfig = paymentConfigService.load(paymentConfig.getId());//获取支付方式
 		String paymentConfigName = paymentConfig.getName();//设置支付方式名称
@@ -237,7 +237,7 @@ public class OrderAction extends BaseCardAction {
 			order.setPaymentConfigName(paymentConfigName);
 			order.setAmount(SettingUtil.setPriceScale(product.getPrice()));//默认充值卡面额为订单金额
 			order.setMemo(memo);
-			order.setMember(loginMember);
+			order.setBusiness(loginBusiness);
 			order.setPaymentConfig(paymentConfig);
 			order.setProductSn(product.getProductSn());
 			order.setProductName(product.getName());//货品名称
@@ -359,13 +359,13 @@ public class OrderAction extends BaseCardAction {
 	}
 	// 订单列表
 	public String list() {
-		pager = orderService.getOrderPager(getLoginMember(), pager);
+		pager = orderService.getOrderPager(getLoginBusiness(), pager);
 		return LIST;
 	}
 	
 	// 查询订单
 	public String search() {
-		order.setMember(getLoginMember());
+		order.setBusiness(getLoginBusiness());
 		pager = orderService.getOrderPager(beginDate,endDate,order,pager);
 		return LIST;
 	}

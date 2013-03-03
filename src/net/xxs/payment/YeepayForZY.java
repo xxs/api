@@ -192,8 +192,8 @@ public class YeepayForZY extends BasePaymentProduct {
 		String pa9_cardPwd = order.getCardPwd();// 秘钥组合
 		String pd_FrpId = order.getCardCode().toUpperCase();// 通道编码
 		String pr_NeedResponse = "1";// 应答机制
-		String pz_userId = order.getMember().getId();// 会员ID（payment中的member可以查询到）
-		String pz1_userRegTime = order.getMember().getCreateDate().toString();// 会员注册时间（payment中的member可以查询到）
+		String pz_userId = order.getBusiness().getId();// 会员ID（payment中的member可以查询到）
+		String pz1_userRegTime = order.getBusiness().getCreateDate().toString();// 会员注册时间（payment中的member可以查询到）
 		String keyValue = paymentConfig.getBargainorKey();// 密钥
 
 		// 生成hmac，保证交易信息不被篡改,关于hmac详见《易宝支付非银行卡支付专业版接口文档 v3.0》

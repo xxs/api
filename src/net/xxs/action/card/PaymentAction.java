@@ -5,9 +5,9 @@ import java.math.BigDecimal;
 import javax.annotation.Resource;
 
 import net.xxs.entity.Brand;
+import net.xxs.entity.Business;
 import net.xxs.entity.Deposit;
 import net.xxs.entity.Deposit.DepositType;
-import net.xxs.entity.Member;
 import net.xxs.entity.Order;
 import net.xxs.entity.Order.OrderStatus;
 import net.xxs.entity.OrderLog;
@@ -15,8 +15,8 @@ import net.xxs.entity.OrderLog.OrderLogType;
 import net.xxs.entity.PaymentDiscount;
 import net.xxs.payment.BasePaymentProduct;
 import net.xxs.service.BrandService;
+import net.xxs.service.BusinessService;
 import net.xxs.service.DepositService;
-import net.xxs.service.MemberService;
 import net.xxs.service.OrderLogService;
 import net.xxs.service.OrderService;
 import net.xxs.service.PaymentDiscountService;
@@ -58,8 +58,8 @@ public class PaymentAction extends BaseCardAction {
 	private OrderService orderService;
 	@Resource(name = "orderLogServiceImpl")
 	private OrderLogService orderLogService;
-	@Resource(name = "memberServiceImpl")
-	private MemberService memberService;
+	@Resource(name = "businessServiceImpl")
+	private BusinessService businessService;
 	@Resource(name = "paymentDiscountServiceImpl")
 	private PaymentDiscountService paymentDiscountService;
 	@Resource(name = "brandServiceImpl")
@@ -114,9 +114,9 @@ public class PaymentAction extends BaseCardAction {
 
 		// ---------支付成功后为用户添加上预存款，并计算提现率
 		System.out.println("支付金额为totalAmount：" + totalAmount);
-		Member member = order.getMember();
-		System.out.println("提现人为：" + member.getUsername());
-		System.out.println("用户提现前的预存款：" + member.getDeposit());
+		Business business = order.getBusiness();
+		System.out.println("提现人为：" + business.getUsername());
+		System.out.println("用户提现前的预存款：" + business.getDeposit());
 		Brand brand = brandService.get(order.getBrandId());
 		PaymentDiscount paymentDiscount = paymentDiscountService.getPaymentDiscountByPaymentConfigAndBrand(order.getPaymentConfig(), brand);
 		System.out.println("订单成功金额为：" + totalAmount);
@@ -129,43 +129,19 @@ public class PaymentAction extends BaseCardAction {
 			tempAmount = totalAmount.multiply(paymentDiscount.getDiscount());
 		}
 		System.out.println("计算折扣率后的应为会员充值的金额为：" + tempAmount);
-		member.setDeposit(member.getDeposit().add(tempAmount));
-		System.out.println("用户提现后的预存款：" + member.getDeposit());
-		memberService.update(member);
+		business.setDeposit(business.getDeposit().add(tempAmount));
+		System.out.println("用户提现后的预存款：" + business.getDeposit());
+		businessService.update(business);
 
 		Deposit deposit = new Deposit();
 		deposit.setDepositType(DepositType.memberRecharge);
 		deposit.setCredit(totalAmount);
 		deposit.setDebit(new BigDecimal(0));
-		deposit.setBalance(member.getDeposit());
+		deposit.setBalance(business.getDeposit());
 		deposit.setLossrate(paymentDiscount.getDiscount());
-		deposit.setMember(member);
+		deposit.setBusiness(business);
 		deposit.setOrder(order);
 		depositService.save(deposit);
-		// 为推荐人加提成
-		if (!"".equals(member.getReferrer()) && null != member.getReferrer()) {
-			Member referrerMember = memberService.getMemberByUsername(member.getReferrer());
-			System.out.println("推荐人为：" + referrerMember.getUsername());
-			System.out.println("推荐人提成前的预存款为：" + referrerMember.getDeposit());
-			System.out.println("推荐人提成率为："+ referrerMember.getMemberRank().getBenefits());
-			System.out.println("待提成的金额为：" + tempAmount);
-			System.out.println("提成的金额为："+ tempAmount.multiply(BigDecimal.valueOf(referrerMember.getMemberRank().getBenefits())));
-			referrerMember.setDeposit(referrerMember.getDeposit().add(tempAmount.multiply(BigDecimal.valueOf(referrerMember.getMemberRank().getBenefits()))));
-			System.out.println("推荐人提成后的预存款为：" + referrerMember.getDeposit());
-			memberService.update(referrerMember);
-			// 记录提成增加的预存款
-			Deposit benefits = new Deposit();
-			benefits.setDepositType(DepositType.benefits);
-			benefits.setCredit(tempAmount.multiply(BigDecimal.valueOf(referrerMember.getMemberRank().getBenefits())));
-			benefits.setDebit(new BigDecimal(0));
-			benefits.setBalance(referrerMember.getDeposit());
-			deposit.setLossrate(new BigDecimal(0));
-			benefits.setReferrer(member.getUsername());
-			benefits.setOrderSn(order.getOrderSn());
-			benefits.setMember(referrerMember);
-			benefits.setOrder(order);
-			depositService.save(benefits);
-		}
 
 		// 订单日志
 		String logInfo = "支付总金额: " + SettingUtil.currencyFormat(order.getAmount());

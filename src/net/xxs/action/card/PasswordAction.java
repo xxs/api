@@ -2,8 +2,8 @@ package net.xxs.action.card;
 
 import javax.annotation.Resource;
 
-import net.xxs.entity.Member;
-import net.xxs.service.MemberService;
+import net.xxs.entity.Business;
+import net.xxs.service.BusinessService;
 import net.xxs.util.StringUtil;
 
 import org.apache.commons.lang.StringUtils;
@@ -28,26 +28,26 @@ public class PasswordAction extends BaseCardAction {
 
 	private static final long serialVersionUID = 6887411316513565001L;
 	
-	private Member member;
+	private Business business;
 	private String oldPassword;
 	private String oldSafeAnswer;
 	
-	@Resource(name = "memberServiceImpl")
-	private MemberService memberService;
+	@Resource(name = "businessServiceImpl")
+	private BusinessService businessService;
 	
 	// 密码修改
 	public String edit() {
-		member = getLoginMember();
+		business = getLoginBusiness();
 		return INPUT;
 	}
 	// 密码密保
 	public String safe() {
-		member = getLoginMember();
+		business = getLoginBusiness();
 		return "question";
 	}
 	// 提现密码
 	public String withdrawPwd() {
-		member = getLoginMember();
+		business = getLoginBusiness();
 		return "withdraw_pwd";
 	}
 
@@ -59,21 +59,21 @@ public class PasswordAction extends BaseCardAction {
 	)
 	@InputConfig(resultName = "error")
 	public String update() {
-		Member persistent = getLoginMember();
-		if (StringUtils.isNotEmpty(oldPassword) && StringUtils.isNotEmpty(member.getPassword())) {
+		Business persistent = getLoginBusiness();
+		if (StringUtils.isNotEmpty(oldPassword) && StringUtils.isNotEmpty(business.getPassword())) {
 			String oldPasswordMd5 = StringUtil.md5(oldPassword);
 			if (!StringUtils.equals(persistent.getPassword(), oldPasswordMd5)) {
 				addActionError("旧密码不正确!");
 				return ERROR;
 			}
-			String newPasswordMd5 = StringUtil.md5(member.getPassword());
+			String newPasswordMd5 = StringUtil.md5(business.getPassword());
 			persistent.setPassword(newPasswordMd5);
 		}
-		if (StringUtils.isNotEmpty(member.getSafeQuestion()) && StringUtils.isNotEmpty(member.getSafeAnswer())) {
-			persistent.setSafeQuestion(member.getSafeQuestion());
-			persistent.setSafeAnswer(member.getSafeAnswer());
+		if (StringUtils.isNotEmpty(business.getSafeQuestion()) && StringUtils.isNotEmpty(business.getSafeAnswer())) {
+			persistent.setSafeQuestion(business.getSafeQuestion());
+			persistent.setSafeAnswer(business.getSafeAnswer());
 		}
-		memberService.update(persistent);
+		businessService.update(persistent);
 		return SUCCESS;
 	}
 	// 密保更新
@@ -84,7 +84,7 @@ public class PasswordAction extends BaseCardAction {
 	)
 	@InputConfig(resultName = "error")
 	public String updateSafeQuestion() {
-		Member persistent = getLoginMember();
+		Business persistent = getLoginBusiness();
 //				addActionError("旧密码不正确!");
 //				return ERROR;
 //			}
@@ -92,28 +92,27 @@ public class PasswordAction extends BaseCardAction {
 //			persistent.setPassword(newPasswordMd5);
 //		}
 		if(StringUtils.isNotEmpty(persistent.getSafeQuestion())){
-			if(memberService.verifyMemberQuestion(persistent,member.getSafeQuestion(), member.getSafeAnswer())){
-				if (StringUtils.isNotEmpty(member.getSafeQuestion()) && StringUtils.isNotEmpty(member.getSafeAnswer())) {
-					persistent.setSafeQuestion(member.getSafeQuestion());
-					persistent.setSafeAnswer(member.getSafeAnswer());
+			if(businessService.verifySafeQuestion(persistent,business.getSafeQuestion(), business.getSafeAnswer())){
+				if (StringUtils.isNotEmpty(business.getSafeQuestion()) && StringUtils.isNotEmpty(business.getSafeAnswer())) {
+					persistent.setSafeQuestion(business.getSafeQuestion());
+					persistent.setSafeAnswer(business.getSafeAnswer());
 				}
 			}else{
 				addActionError("旧密保答案验证失败!");
 				return ERROR;
 			}
 		}
-		memberService.update(persistent);
+		businessService.update(persistent);
 		return SUCCESS;
 	}
 
-	public Member getMember() {
-		return member;
-	}
 
-	public void setMember(Member member) {
-		this.member = member;
+	public Business getBusiness() {
+		return business;
 	}
-
+	public void setBusiness(Business business) {
+		this.business = business;
+	}
 	public String getOldPassword() {
 		return oldPassword;
 	}

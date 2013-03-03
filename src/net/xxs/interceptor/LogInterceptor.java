@@ -9,13 +9,13 @@ import net.xxs.action.admin.BaseAdminAction;
 import net.xxs.action.card.BaseCardAction;
 import net.xxs.bean.LogConfig;
 import net.xxs.bean.MemberLogConfig;
+import net.xxs.entity.Business;
+import net.xxs.entity.BusinessLog;
 import net.xxs.entity.Log;
-import net.xxs.entity.Member;
-import net.xxs.entity.MemberLog;
 import net.xxs.service.AdminService;
+import net.xxs.service.BusinessLogService;
+import net.xxs.service.BusinessService;
 import net.xxs.service.LogService;
-import net.xxs.service.MemberLogService;
-import net.xxs.service.MemberService;
 import net.xxs.util.LogConfigUtil;
 import net.xxs.util.MemberLogConfigUtil;
 
@@ -36,11 +36,11 @@ public class LogInterceptor extends AbstractInterceptor {
 	@Resource(name = "logServiceImpl")
 	private LogService logService;
 	@Resource(name = "memberLogServiceImpl")
-	private MemberLogService memberLogService;
+	private BusinessLogService memberLogService;
 	@Resource(name = "adminServiceImpl")
 	private AdminService adminService;
-	@Resource(name = "memberServiceImpl")
-	private MemberService memberService;
+	@Resource(name = "businessServiceImpl")
+	private BusinessService businessService;
 
 	@Override
 	public String intercept(ActionInvocation invocation) throws Exception {
@@ -91,19 +91,19 @@ public class LogInterceptor extends AbstractInterceptor {
 							BaseCardAction baseCardAction = (BaseCardAction) action;
 							HttpServletRequest request= ServletActionContext.getRequest();
 							String logInfo = baseCardAction.getLogInfo();
-							String memberId = (String)request.getSession().getAttribute(Member.MEMBER_ID_SESSION_NAME);
+							String memberId = (String)request.getSession().getAttribute(Business.BUSINESS_ID_SESSION_NAME);
 							if (StringUtils.isEmpty(memberId)) {
 								return null;
 							}
-							Member loginMember = memberService.get(memberId);
+							Business business = businessService.get(memberId);
 							
-							String operator = loginMember.getUsername();
+							String operator = business.getUsername();
 							if(operator == null) {
 								operator = "未知";
 							}
 							String ip = request.getRemoteAddr();
 							String operation = memberLogConfig.getOperation();
-							MemberLog memberLog = new MemberLog();
+							BusinessLog memberLog = new BusinessLog();
 							memberLog.setOperation(operation);
 							memberLog.setOperator(operator);
 							memberLog.setActionClass(actionClass);

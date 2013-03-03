@@ -3,14 +3,12 @@ package net.xxs.action.api;
 import java.io.IOException;
 import java.util.Map;
 
-import javax.annotation.Resource;
 import javax.servlet.ServletContext;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import net.xxs.bean.Setting;
-import net.xxs.service.MemberService;
 import net.xxs.util.SettingUtil;
 
 import org.apache.struts2.ServletActionContext;
@@ -59,9 +57,6 @@ public class BaseApiAction extends ActionSupport {
 	protected String r2_reinfo;				//返回信息
 	protected String r3_accountface;		//成交金额
 	protected String sign;					//签名
-	
-	@Resource(name = "memberServiceImpl")
-	protected MemberService memberService;
 	
 	// 获取系统配置信息
 	public Setting getSetting() {

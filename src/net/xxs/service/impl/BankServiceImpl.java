@@ -2,9 +2,9 @@ package net.xxs.service.impl;
 
 import javax.annotation.Resource;
 
-import net.xxs.dao.MemberBankDao;
-import net.xxs.entity.MemberBank;
-import net.xxs.service.MemberBankService;
+import net.xxs.dao.BankDao;
+import net.xxs.entity.Bank;
+import net.xxs.service.BankService;
 
 import org.springframework.stereotype.Service;
 
@@ -13,13 +13,13 @@ import org.springframework.stereotype.Service;
  */
 
 @Service("memberBankServiceImpl")
-public class MemberBankServiceImpl extends BaseServiceImpl<MemberBank, String> implements MemberBankService {
+public class BankServiceImpl extends BaseServiceImpl<Bank, String> implements BankService {
 	
 	@Resource(name = "memberBankDaoImpl")
-	MemberBankDao memberBankDao;
+	BankDao memberBankDao;
 
 	@Resource(name = "memberBankDaoImpl")
-	public void setBaseDao(MemberBankDao memberBankDao) {
+	public void setBaseDao(BankDao memberBankDao) {
 		super.setBaseDao(memberBankDao);
 	}
 

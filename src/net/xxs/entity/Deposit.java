@@ -36,7 +36,7 @@ public class Deposit extends BaseEntity {
 	private String referrer;// 被推荐人名字 (只有提现单涉及，记录预存款来源)
 	private String orderSn;// 被推荐人操作的订单号 (只有提现单涉及，记录预存款来源)
 	
-	private Member member;// 会员
+	private Business business;// 商户
 	private Order order;// 订单
 	
 	@Enumerated
@@ -102,15 +102,15 @@ public class Deposit extends BaseEntity {
 	}
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-	@ForeignKey(name = "fk_deposit_member")
-	public Member getMember() {
-		return member;
+	@ForeignKey(name = "fk_deposit_business")
+	public Business getBusiness() {
+		return business;
 	}
 
-	public void setMember(Member member) {
-		this.member = member;
+	public void setBusiness(Business business) {
+		this.business = business;
 	}
-
+	
 	@OneToOne(mappedBy = "deposit", fetch = FetchType.LAZY, cascade = {CascadeType.REMOVE})
 	@ForeignKey(name = "fk_deposit_order")
 	public Order getOrder() {

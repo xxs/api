@@ -4,10 +4,8 @@ import java.util.Date;
 import java.util.List;
 
 import net.xxs.bean.Pager;
-import net.xxs.entity.Brand;
-import net.xxs.entity.Member;
+import net.xxs.entity.Business;
 import net.xxs.entity.Order;
-import net.xxs.entity.PaymentConfig;
 import net.xxs.entity.Order.OrderStatus;
 
 /**
@@ -40,7 +38,7 @@ public interface OrderDao extends BaseDao<Order, String> {
 	 *            
 	 * @return 订单分页对象
 	 */
-	public Pager getOrderPager(Member member, Pager pager);
+	public Pager getOrderPager(Business business, Pager pager);
 	
 	public Pager getOrderPager(Date beginDate, Date endDate,Order order,Pager pager);
 	/**
@@ -54,7 +52,7 @@ public interface OrderDao extends BaseDao<Order, String> {
 	 *            
 	 * @return 已完成的订单
 	 */
-	public List<Order> getOrderList(Member member, OrderStatus orderStatus);
+	public List<Order> getOrderList(Business business, OrderStatus orderStatus);
 	
 	/**
 	 * 获取未处理订单数
