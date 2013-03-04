@@ -30,14 +30,8 @@ public class PaymentConfigServiceImpl extends BaseServiceImpl<PaymentConfig, Str
 	
 	@Cacheable(modelId = "paymentConfigCaching")
 	@Transactional(readOnly = true)
-	public List<PaymentConfig> getNonDepositPaymentConfigList() {
-		return paymentConfigDao.getNonDepositPaymentConfigList();
-	}
-	
-	@Cacheable(modelId = "paymentConfigCaching")
-	@Transactional(readOnly = true)
-	public List<PaymentConfig> getNonDepositOfflinePaymentConfigList() {
-		return paymentConfigDao.getNonDepositOfflinePaymentConfigList();
+	public List<PaymentConfig> getPaymentConfigList() {
+		return paymentConfigDao.getPaymentConfigList();
 	}
 	
 	@Override

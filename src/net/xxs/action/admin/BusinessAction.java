@@ -5,12 +5,10 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
-import net.xxs.entity.Member;
 import net.xxs.entity.Business;
 import net.xxs.entity.Business.BusinessType;
 import net.xxs.entity.Business.ResultType;
 import net.xxs.service.BusinessService;
-import net.xxs.service.MemberService;
 
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.springframework.beans.BeanUtils;
@@ -42,7 +40,7 @@ public class BusinessAction extends BaseAdminAction {
 	}
 	// 列表
 	public String applying() {
-		pager = businessService.getMemberBusinessPager(ResultType.apply, pager);
+		pager = businessService.getBusinessPager(ResultType.apply, pager);
 		return LIST;
 	}
 	// 添加
@@ -75,7 +73,7 @@ public class BusinessAction extends BaseAdminAction {
 	)
 	@InputConfig(resultName = "error")
 	public String save() {
-		if (!businessService.isExistByUsername(business.getUsername())) {
+		if (!businessService.isExistByEmail(business.getEmail())) {
 			addActionError("会员名不存在!");
 			return ERROR;
 		}
@@ -95,8 +93,6 @@ public class BusinessAction extends BaseAdminAction {
 			addActionError("ICP备案号已注册过!");
 			return ERROR;
 		}
-		Member member = memberService.getMemberByUsername(business.getMember().getUsername());
-		business.setMember(member);
 		businessService.save(business);
 		redirectUrl = "member_business!list.action";
 		return SUCCESS;

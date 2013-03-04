@@ -48,7 +48,7 @@ public class DepositAction extends BaseCardAction {
 	}
 	// 获取支付配置（不包含预存款、线下支付方式）
 	public List<PaymentConfig> getNonDepositOfflinePaymentConfigList() {
-		return paymentConfigService.getNonDepositOfflinePaymentConfigList();
+		return paymentConfigService.getPaymentConfigList();
 	}
 	public Business getBusiness() {
 		return business;

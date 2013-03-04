@@ -1,7 +1,6 @@
 package net.xxs.action.admin;
 
 import java.math.BigDecimal;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
@@ -9,8 +8,6 @@ import javax.annotation.Resource;
 
 import net.xxs.entity.Brand;
 import net.xxs.entity.PaymentConfig;
-import net.xxs.entity.PaymentConfig.PaymentConfigType;
-import net.xxs.entity.PaymentConfig.PaymentFeeType;
 import net.xxs.entity.PaymentDiscount;
 import net.xxs.payment.BasePaymentProduct;
 import net.xxs.service.BrandService;
@@ -79,13 +76,11 @@ public class PaymentConfigAction extends BaseAdminAction {
 	)
 	@InputConfig(resultName = "error")
 	public String add() {
-		if (paymentConfig.getPaymentConfigType() == PaymentConfigType.online) {
 			paymentProduct = PaymentProductUtil.getPaymentProduct(paymentConfig.getPaymentProductId());
 			if (paymentProduct == null) {
 				addActionError("支付产品配置不存在!");
 				return ERROR;
 			}
-		}
 		return INPUT;
 	}
 	// 添加通道
@@ -108,12 +103,10 @@ public class PaymentConfigAction extends BaseAdminAction {
 	// 编辑
 	public String edit() {
 		paymentConfig = paymentConfigService.load(id);
-		if (paymentConfig.getPaymentConfigType() == PaymentConfigType.online) {
-			paymentProduct = PaymentProductUtil.getPaymentProduct(paymentConfig.getPaymentProductId());
-			if (paymentProduct == null) {
-				addActionError("支付产品配置不存在!");
-				return ERROR;
-			}
+		paymentProduct = PaymentProductUtil.getPaymentProduct(paymentConfig.getPaymentProductId());
+		if (paymentProduct == null) {
+			addActionError("支付产品配置不存在!");
+			return ERROR;
 		}
 		return INPUT;
 	}
@@ -165,7 +158,6 @@ public class PaymentConfigAction extends BaseAdminAction {
 			addActionError("支付手续费金额不允许小于0!");
 			return ERROR;
 		}
-		if (paymentConfig.getPaymentConfigType() == PaymentConfigType.online) {
 			paymentProduct = PaymentProductUtil.getPaymentProduct(paymentConfig.getPaymentProductId());
 			if (paymentProduct == null) {
 				addActionError("支付产品配置不存在!");
@@ -179,11 +171,6 @@ public class PaymentConfigAction extends BaseAdminAction {
 				addActionError(paymentProduct.getBargainorKeyName() + "不允许为空!");
 				return ERROR;
 			}
-		} else {
-			paymentConfig.setPaymentProductId(null);
-			paymentConfig.setBargainorId(null);
-			paymentConfig.setBargainorKey(null);
-		}
 		paymentConfigService.save(paymentConfig);
 		redirectUrl = "payment_config!list.action";
 		return SUCCESS;
@@ -231,7 +218,6 @@ public class PaymentConfigAction extends BaseAdminAction {
 			return ERROR;
 		}
 		PaymentConfig persistent = paymentConfigService.load(id);
-		if (persistent.getPaymentConfigType() == PaymentConfigType.online) {
 			paymentProduct = PaymentProductUtil.getPaymentProduct(paymentConfig.getPaymentProductId());
 			if (paymentProduct == null) {
 				addActionError("支付产品配置不存在!");
@@ -245,11 +231,6 @@ public class PaymentConfigAction extends BaseAdminAction {
 				addActionError(paymentProduct.getBargainorKeyName() + "不允许为空!");
 				return ERROR;
 			}
-		} else {
-			paymentConfig.setPaymentProductId(null);
-			paymentConfig.setBargainorId(null);
-			paymentConfig.setBargainorKey(null);
-		}
 		BeanUtils.copyProperties(paymentConfig, persistent, new String[] {"id", "createDate", "modifyDate", "paymentConfigType", "paymentProductId"});
 		paymentConfigService.update(persistent);
 		redirectUrl = "payment_config!list.action";
@@ -297,11 +278,6 @@ public class PaymentConfigAction extends BaseAdminAction {
 		redirectUrl = "payment_config!editDiscount.action?id="+paymentDiscount.getPaymentConfig().getId();
 		return SUCCESS;
 	}
-	// 获取支付手续费类型集合
-	public List<PaymentFeeType> getPaymentFeeTypeList() {
-		return Arrays.asList(PaymentFeeType.values());
-	}
-	
 	// 获取所有支付产品集合
 	public List<BasePaymentProduct> getPaymentProductList() {
 		return PaymentProductUtil.getPaymentProductList();

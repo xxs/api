@@ -11,17 +11,11 @@ import net.xxs.entity.PaymentConfig;
 public interface PaymentConfigService extends BaseService<PaymentConfig, String> {
 	
 	/**
-	 * 获取非预存款类型的支付配置
+	 * 获取支付配置
 	 * 
 	 * @return 支付配置
 	 */
-	public List<PaymentConfig> getNonDepositPaymentConfigList();
+	public List<PaymentConfig> getPaymentConfigList();
 	
-	/**
-	 * 获取非预存款、线下支付方式的支付配置
-	 * 
-	 * @return 支付配置
-	 */
-	public List<PaymentConfig> getNonDepositOfflinePaymentConfigList();
 	
 }

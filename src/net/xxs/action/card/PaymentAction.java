@@ -115,7 +115,7 @@ public class PaymentAction extends BaseCardAction {
 		// ---------支付成功后为用户添加上预存款，并计算提现率
 		System.out.println("支付金额为totalAmount：" + totalAmount);
 		Business business = order.getBusiness();
-		System.out.println("提现人为：" + business.getUsername());
+		System.out.println("提现人为：" + business.getEmail());
 		System.out.println("用户提现前的预存款：" + business.getDeposit());
 		Brand brand = brandService.get(order.getBrandId());
 		PaymentDiscount paymentDiscount = paymentDiscountService.getPaymentDiscountByPaymentConfigAndBrand(order.getPaymentConfig(), brand);

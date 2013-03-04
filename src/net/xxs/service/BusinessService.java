@@ -13,11 +13,6 @@ import net.xxs.entity.Business.ResultType;
 public interface BusinessService extends BaseService<Business, String> {
 	
 	/**
-	 * 根据用户名获取会员对象,若会员不存在,则返回null（不区分大小写）
-	 * 
-	 */
-	public Business getBusinessByUsername(String username);
-	/**
 	 * 获取最后生成的商户编号
 	 * 
 	 * @return 商户编号
@@ -31,7 +26,7 @@ public interface BusinessService extends BaseService<Business, String> {
 	 */
 	public Boolean isExistByBusinessNum(String businessNumber);
 
-	public Pager getMemberBusinessPager(ResultType resultType,Pager pager);
+	public Pager getBusinessPager(ResultType resultType,Pager pager);
 	/**
 	 * 判断商户名称是否存在（不区分大小写）
 	 * 
@@ -48,10 +43,20 @@ public interface BusinessService extends BaseService<Business, String> {
 	 */
 	public boolean isExistByUrl(String url);
 	/**
+	 * 判断emial是否存在（不区分大小写）
+	 * 
+	 */
+	public boolean isExistByEmail(String emial);
+	/**
 	 * 判断CIP是否存在（不区分大小写）
 	 * 
 	 */
 	public boolean isExistByIcp(String icp);
+	/**
+	 * 判断Email是否存在（不区分大小写）
+	 * 
+	 */
+	public Business getBusinessByEmail(String email);
 	/**
 	 * 根据用户名、密码验证会员
 	 * 

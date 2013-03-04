@@ -19,16 +19,16 @@ import org.springframework.stereotype.Repository;
 @Repository("businessDaoImpl")
 public class BusinessDaoImpl extends BaseDaoImpl<Business, String> implements BusinessDao {
 
-	public Long getUnprocessedMemberBusinessApplyCount() {
+	public Long getUnprocessedBusinessApplyCount() {
 		String hql = "select count(*) from Business as business where business.resultType = :resultType";
 		return (Long) getSession().createQuery(hql).setParameter("resultType", ResultType.apply).uniqueResult();
 	}
 
-	public Long getUnprocessedMemberBusinessCount() {
+	public Long getUnprocessedBusinessCount() {
 		String hql = "select count(*) from Business as business where business.resultType = :resultType";
 		return (Long) getSession().createQuery(hql).setParameter("resultType", ResultType.success).uniqueResult();
 	}
-	public Pager getMemberBusinessPager(ResultType resultType,Pager pager) {
+	public Pager getBusinessPager(ResultType resultType,Pager pager) {
 		Criteria criteria = getSession().createCriteria(Business.class);
 		if (resultType != null) {
 			criteria.add(Restrictions.eq("resultType", resultType));
@@ -86,7 +86,7 @@ public class BusinessDaoImpl extends BaseDaoImpl<Business, String> implements Bu
 		}
 	}
 
-	public Boolean isExistByBusinessNum(String businessNumber) {
+	public boolean isExistByBusinessNum(String businessNumber) {
 		String hql = "from Business as business where lower(business.businessNumber) = lower(:businessNumber)";
 		Business business = (Business) getSession().createQuery(hql).setParameter("businessNumber", businessNumber).uniqueResult();
 		if (business != null) {
@@ -95,9 +95,18 @@ public class BusinessDaoImpl extends BaseDaoImpl<Business, String> implements Bu
 			return false;
 		}
 	}
-	@SuppressWarnings("unchecked")
-	public Business getBusinessByUsername(String username) {
-		String hql = "from Business as business where lower(business.username) = lower(:username)";
-		return (Business) getSession().createQuery(hql).setParameter("username", username).uniqueResult();
+
+	public boolean isExistByEmail(String email) {
+		String hql = "from Business as business where lower(business.email) = lower(:email)";
+		Business business = (Business) getSession().createQuery(hql).setParameter("email", email).uniqueResult();
+		if (business != null) {
+			return true;
+		} else {
+			return false;
+		} 
+	}
+	public Business getBusinessByEmail(String email) {
+		String hql = "from Business as business where lower(business.email) = lower(:email)";
+		return (Business) getSession().createQuery(hql).setParameter("email", email).uniqueResult();
 	}
 }

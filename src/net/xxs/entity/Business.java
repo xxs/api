@@ -37,14 +37,14 @@ public class Business extends BaseEntity {
 		apply, success, lose
 	};
 	
-	
-	private String username;			// 用户名
+	private String businessNum;  		//商户号
+	private String businessKey;			//秘钥
 	private String password;			// 密码
 	private String withdrawPwd;			// 提现密码
 	private String email;				// E-mail
 	private String passwordRecoverKey;	// 密码找回Key
+	private BigDecimal lossrate;		//提现折扣
 	private BigDecimal deposit;			// 预存款
-	private BusinessType businessType;	//商户类型
 	private String realName;			//真实姓名
 	private String businessNumber;		//身份证号（营业执照号码）
 	private String businessName;		//商户名称
@@ -61,12 +61,10 @@ public class Business extends BaseEntity {
 	private String address;				//通讯地址
 	private String zipcode;				//邮编
 	private String memo;				//是否通过备注
-	private String BusinessNum;  		//商户号
-	private String BusinessKey;			//秘钥
-	private BigDecimal lossrate;			//提现折扣
 	
 	private String safeQuestion;		// 密码保护问题
 	private String safeAnswer;			// 密码保护问题答案
+	private Boolean IsAccountLocked;	// 账号是否锁定
 	private Boolean isAccountEnabled;	// 账号是否启用
 	private Integer loginFailureCount;	// 连续登录失败的次数
 	private Date lockedDate;			// 账号锁定日期
@@ -74,10 +72,11 @@ public class Business extends BaseEntity {
 	private String loginIp;				// 最后登录IP
 	private Date loginDate;				// 最后登录日期
 	
+	private BusinessType businessType;							//商户类型
 	private ResultType resultType;								//审核是否通过
 	private Set<Order> orderSet = new HashSet<Order>();			// 订单
 	private Set<Deposit> depositSet = new HashSet<Deposit>();	// 预存款
-	private Set<Bank> bankSet = new HashSet<Bank>();		//银行卡信息
+	private Set<Bank> bankSet = new HashSet<Bank>();			//银行卡信息
 	private Set<Withdraw> withdrawSet = new HashSet<Withdraw>();// 提现申请
 	
 	
@@ -229,32 +228,20 @@ public class Business extends BaseEntity {
 		this.memo = memo;
 	}
 	
-	@Column(nullable = true, updatable = false, unique = true)
 	public String getBusinessNum() {
-		return BusinessNum;
+		return businessNum;
 	}
 
 	public void setBusinessNum(String businessNum) {
-		BusinessNum = businessNum;
+		this.businessNum = businessNum;
 	}
 
-	@Column(nullable = true, unique = true)
 	public String getBusinessKey() {
-		return BusinessKey;
+		return businessKey;
 	}
 
 	public void setBusinessKey(String businessKey) {
-		BusinessKey = businessKey;
-	}
-	
-	
-	
-	public String getUsername() {
-		return username;
-	}
-
-	public void setUsername(String username) {
-		this.username = username;
+		this.businessKey = businessKey;
 	}
 
 	public String getPassword() {
@@ -397,8 +384,8 @@ public class Business extends BaseEntity {
 	@Override
 	@Transient
 	public void onSave() {
-		BusinessNum = SerialNumberUtil.buildBusinessNumber();
-		BusinessKey = SerialNumberUtil.buildBusinessKey();
+		businessNum = SerialNumberUtil.buildBusinessNumber();
+		businessKey = SerialNumberUtil.buildBusinessKey();
 	}
 	
 	// 更新处理
@@ -440,6 +427,14 @@ public class Business extends BaseEntity {
 
 	public void setLossrate(BigDecimal lossrate) {
 		this.lossrate = lossrate;
+	}
+
+	public Boolean getIsAccountLocked() {
+		return IsAccountLocked;
+	}
+
+	public void setIsAccountLocked(Boolean isAccountLocked) {
+		IsAccountLocked = isAccountLocked;
 	}
 
 }

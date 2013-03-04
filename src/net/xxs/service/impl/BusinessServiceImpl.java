@@ -32,17 +32,17 @@ public class BusinessServiceImpl extends BaseServiceImpl<Business, String> imple
 	}
 	
 	@Transactional(readOnly = true)
-	public Business getBusinessByUsername(String username) {
-		return businessDao.getBusinessByUsername(username);
+	public Business getBusinessByEmail(String email) {
+		return businessDao.getBusinessByEmail(email);
 	}
 	
 	@Transactional(readOnly = true)
-	public Long getUnprocessedMemberBusinessCount() {
-		return businessDao.getUnprocessedMemberBusinessCount();
+	public Long getUnprocessedBusinessCount() {
+		return businessDao.getUnprocessedBusinessCount();
 	}
 
-	public Pager getMemberBusinessPager(ResultType resultType, Pager pager) {
-		return businessDao.getMemberBusinessPager(resultType, pager);
+	public Pager getBusinessPager(ResultType resultType, Pager pager) {
+		return businessDao.getBusinessPager(resultType, pager);
 	}
 
 	public boolean isExistByBusinessName(String businessname) {
@@ -94,6 +94,10 @@ public class BusinessServiceImpl extends BaseServiceImpl<Business, String> imple
 	public Date getPasswordRecoverKeyBuildDate(String passwordRecoverKey) {
 		long time = Long.valueOf(StringUtils.substringBefore(passwordRecoverKey, Business.PASSWORD_RECOVER_KEY_SEPARATOR));
 		return new Date(time);
+	}
+
+	public boolean isExistByEmail(String emial) {
+		return businessDao.isExistByEmail(emial);
 	}
 
 }

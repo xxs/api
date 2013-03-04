@@ -22,7 +22,7 @@ public class Bank extends BaseEntity {
 
 	private static final long serialVersionUID = 3599029355500655209L;
 
-	public static final Integer MAX_MEMBERBANK_COUNT = 5;// 会员体现账户最大保存数,为null则无限制
+	public static final Integer MAX_BUSINESSBANK_COUNT = 5;// 会员体现账户最大保存数,为null则无限制
 	
 	private String banknum;
 	private String bankname;
@@ -31,7 +31,7 @@ public class Bank extends BaseEntity {
 	private String bankdetail;
 	private String memo;
 	private Boolean isDefault;
-	private Business business; // 会员
+	private Business business; // 商户
 	
 	private Set<Withdraw> withdrawSet = new HashSet<Withdraw>();// 提现记录
 

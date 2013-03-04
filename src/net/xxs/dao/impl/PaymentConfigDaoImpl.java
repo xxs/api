@@ -6,7 +6,6 @@ import java.util.Set;
 import net.xxs.dao.PaymentConfigDao;
 import net.xxs.entity.Order;
 import net.xxs.entity.PaymentConfig;
-import net.xxs.entity.PaymentConfig.PaymentConfigType;
 
 import org.springframework.stereotype.Repository;
 
@@ -18,15 +17,9 @@ import org.springframework.stereotype.Repository;
 public class PaymentConfigDaoImpl extends BaseDaoImpl<PaymentConfig, String> implements PaymentConfigDao {
 
 	@SuppressWarnings("unchecked")
-	public List<PaymentConfig> getNonDepositPaymentConfigList() {
-		String hql = "from PaymentConfig as paymentConfig where paymentConfig.paymentConfigType != :paymentConfigType order by paymentConfig.orderList asc";
-		return getSession().createQuery(hql).setParameter("paymentConfigType", PaymentConfigType.deposit).list();
-	}
-	
-	@SuppressWarnings("unchecked")
-	public List<PaymentConfig> getNonDepositOfflinePaymentConfigList() {
-		String hql = "from PaymentConfig as paymentConfig where paymentConfig.paymentConfigType != :paymentConfigTypeDeposit and paymentConfig.paymentConfigType != :paymentConfigTypeOffline order by paymentConfig.orderList asc";
-		return getSession().createQuery(hql).setParameter("paymentConfigTypeDeposit", PaymentConfigType.deposit).setParameter("paymentConfigTypeOffline", PaymentConfigType.offline).list();
+	public List<PaymentConfig> getPaymentConfigList() {
+		String hql = "from PaymentConfig as paymentConfig order by paymentConfig.orderList asc";
+		return getSession().createQuery(hql).list();
 	}
 	
 	// 关联处理

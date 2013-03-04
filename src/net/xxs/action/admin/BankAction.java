@@ -4,11 +4,10 @@ import java.util.Set;
 
 import javax.annotation.Resource;
 
-import net.xxs.entity.Member;
 import net.xxs.entity.Bank;
-import net.xxs.service.BusinessService;
+import net.xxs.entity.Business;
 import net.xxs.service.BankService;
-import net.xxs.service.MemberService;
+import net.xxs.service.BusinessService;
 
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.springframework.beans.BeanUtils;
@@ -28,24 +27,24 @@ public class BankAction extends BaseAdminAction {
 
 	private Bank bank;
 
-	@Resource(name = "memberBankServiceImpl")
-	private BankService memberBankService;
+	@Resource(name = "bankServiceImpl")
+	private BankService bankService;
 	@Resource(name = "businessServiceImpl")
 	private BusinessService businessService;
 
 	// 是否已存在 username ajax验证
 	public String checkUsername() {
-		String username = bank.getBusiness().getUsername();
-		if (!businessService.isExistByUsername(username)) {
+		String email = bank.getBusiness().getEmail();
+		if (!businessService.isExistByEmail(email)) {
 			return ajax("false");
 		} else {
 			return ajax("true");
 		}
 	}
-	// 是否已存在 memberbanknumber ajax验证
+	// 是否已存在 banknumber ajax验证
 	public String checkBankNumber() {
-		String username = memberBank.getMember().getUsername();
-		if (!memberService.isExistByUsername(username)) {
+		String email = bank.getBusiness().getEmail();
+		if (!businessService.isExistByEmail(email)) {
 			return ajax("false");
 		} else {
 			return ajax("true");
@@ -53,7 +52,7 @@ public class BankAction extends BaseAdminAction {
 	}
 	// 列表
 	public String list() {
-		pager = memberBankService.findPager(pager);
+		pager = bankService.findPager(pager);
 		return LIST;
 	}
 
@@ -64,64 +63,64 @@ public class BankAction extends BaseAdminAction {
 	// 保存
 	@Validations(
 		requiredStrings = { 
-			@RequiredStringValidator(fieldName = "memberBank.member.username", message = "所属会员名不允许为空!"),
-			@RequiredStringValidator(fieldName = "memberBank.banknum", message = "银行账号不允许为空!"),
-			@RequiredStringValidator(fieldName = "memberBank.openname", message = "开户姓名不允许为空!"),
-			@RequiredStringValidator(fieldName = "memberBank.bankname", message = "所属银行不允许为空!"),
-			@RequiredStringValidator(fieldName = "memberBank.bankcity", message = "银行归属地不允许为空!"),
-			@RequiredStringValidator(fieldName = "memberBank.bankdetail", message = "所属支行不允许为空!")
+			@RequiredStringValidator(fieldName = "bank.business.email", message = "所属会员名不允许为空!"),
+			@RequiredStringValidator(fieldName = "bank.banknum", message = "银行账号不允许为空!"),
+			@RequiredStringValidator(fieldName = "bank.openname", message = "开户姓名不允许为空!"),
+			@RequiredStringValidator(fieldName = "bank.bankname", message = "所属银行不允许为空!"),
+			@RequiredStringValidator(fieldName = "bank.bankcity", message = "银行归属地不允许为空!"),
+			@RequiredStringValidator(fieldName = "bank.bankdetail", message = "所属支行不允许为空!")
 		}
 	)
 	@InputConfig(resultName = "error")
 	public String save() {
-		if (!memberService.isExistByUsername(memberBank.getMember().getUsername())) {
+		if (!businessService.isExistByEmail(bank.getBusiness().getEmail())) {
 			addActionError("会员名不存在!");
 			return ERROR;
 		}
-		Member member = memberService.getMemberByUsername(memberBank.getMember().getUsername());
-		if (memberBankService.isExistByBankNumber(memberBank.getBanknum())) {
+		Business business = businessService.getBusinessByEmail(bank.getBusiness().getEmail());
+		if (bankService.isExistByBankNumber(bank.getBanknum())) {
 			addActionError("银行卡号已绑定过!");
 			return ERROR;
 		}
-		Set<Bank> memberBankSet = member.getMemberBankSet();
-		if (memberBankSet != null && Bank.MAX_MEMBERBANK_COUNT != null && memberBankSet.size() >= Bank.MAX_MEMBERBANK_COUNT) {
-			addActionError("每个会员只允许最多添加" + Bank.MAX_MEMBERBANK_COUNT + "个提现账户!");
+		Set<Bank> bankSet = business.getBankSet();
+		if (bankSet != null && Bank.MAX_BUSINESSBANK_COUNT != null && bankSet.size() >= Bank.MAX_BUSINESSBANK_COUNT) {
+			addActionError("每个会员只允许最多添加" + Bank.MAX_BUSINESSBANK_COUNT + "个提现账户!");
 			return ERROR;
 		}
-		memberBank.setMember(member);
-		memberBankService.save(memberBank);
+		bank.setBusiness(business);
+		bankService.save(bank);
 		redirectUrl = "member_bank!list.action";
 		return SUCCESS;
 	}
 	// 编辑
 	public String edit() {
-		memberBank = memberBankService.load(id);
+		bank = bankService.load(id);
 		return INPUT;
 	}
 	// 更新
 	@Validations(
 		requiredStrings = { 
-			@RequiredStringValidator(fieldName = "memberBank.member.username", message = "所属会员名不允许为空!"),
-			@RequiredStringValidator(fieldName = "memberBank.banknum", message = "银行账号不允许为空!"),
-			@RequiredStringValidator(fieldName = "memberBank.openname", message = "开户姓名不允许为空!"),
-			@RequiredStringValidator(fieldName = "memberBank.bankname", message = "所属银行不允许为空!"),
-			@RequiredStringValidator(fieldName = "memberBank.bankcity", message = "银行归属地不允许为空!"),
-			@RequiredStringValidator(fieldName = "memberBank.bankdetail", message = "所属支行不允许为空!")
+			@RequiredStringValidator(fieldName = "bank.business.email", message = "所属会员名不允许为空!"),
+			@RequiredStringValidator(fieldName = "bank.banknum", message = "银行账号不允许为空!"),
+			@RequiredStringValidator(fieldName = "bank.openname", message = "开户姓名不允许为空!"),
+			@RequiredStringValidator(fieldName = "bank.bankname", message = "所属银行不允许为空!"),
+			@RequiredStringValidator(fieldName = "bank.bankcity", message = "银行归属地不允许为空!"),
+			@RequiredStringValidator(fieldName = "bank.bankdetail", message = "所属支行不允许为空!")
 		}
 	)
 	@InputConfig(resultName = "error")
 	public String update() {
-		Bank persistent = memberBankService.get(id);
-		BeanUtils.copyProperties(memberBank, persistent, new String[] {"id", "createDate", "modifyDate", "member"});
-		memberBankService.update(persistent);
+		Bank persistent = bankService.get(id);
+		BeanUtils.copyProperties(bank, persistent, new String[] {"id", "createDate", "modifyDate", "business"});
+		bankService.update(persistent);
 		redirectUrl = "member_bank!list.action";
 		return SUCCESS;
 	}
-	public Bank getMemberBank() {
-		return memberBank;
+	public Bank getBank() {
+		return bank;
 	}
-
-	public void setMemberBank(Bank memberBank) {
-		this.memberBank = memberBank;
+	public void setBank(Bank bank) {
+		this.bank = bank;
 	}
+	
 }

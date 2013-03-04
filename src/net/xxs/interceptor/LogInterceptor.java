@@ -97,7 +97,7 @@ public class LogInterceptor extends AbstractInterceptor {
 							}
 							Business business = businessService.get(memberId);
 							
-							String operator = business.getUsername();
+							String operator = business.getEmail();
 							if(operator == null) {
 								operator = "未知";
 							}

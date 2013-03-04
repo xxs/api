@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <xxs> 
-	<description>主配置文件</description>  
+	<description>API主配置文件</description>  
 	<setting> 
-		<systemName>名臣福利-收卡平台</systemName>  
+		<systemName>名臣福利-API接入平台</systemName>  
 		<systemVersion>1.0.1</systemVersion>  
 		<systemDescription>名臣福利,收购手机充值卡,手机充值卡回收,手机充值卡回购,手机充值卡变现,手机充值卡提现,一卡通回收,Q币卡点卡回收</systemDescription>  
 		<contextPath/>  
@@ -12,7 +12,7 @@
 		<adminLoginUrl>/admin/index.jsp</adminLoginUrl>  
 		<adminLoginProcessingUrl>/admin/login/check</adminLoginProcessingUrl>  
 		<isShowPoweredInfo>true</isShowPoweredInfo>  
-		<cardName>收卡平台</cardName>  
+		<cardName>API接入平台</cardName>  
 		<cardUrl>http://localhost</cardUrl>  
 		<cardLogoPath>/images/logo.jpg</cardLogoPath>  
 		<hotSearch>名臣福利,收购手机充值卡,手机充值卡回收,手机充值卡回购,手机充值卡变现,手机充值卡提现,一卡通回收,Q币卡点卡回收</hotSearch>  
@@ -37,7 +37,7 @@
 		<withdrawEveryDayMoney>0</withdrawEveryDayMoney>
 		<withdrawEveryMaxMoney>0</withdrawEveryMaxMoney>
 		<withdrawEveryMinMoney>0</withdrawEveryMinMoney>  
-		<withdrawMaxMoney>0</withdrawMaxMoney>
+		<withdrawMaxMoney>0</withdrawMaxMoney>	
 		<withdrawMaxCount>0</withdrawMaxCount>  
 		<watermarkImagePath>/images/watermark.jpg</watermarkImagePath>  
 		<watermarkPosition>bottomRight</watermarkPosition>  

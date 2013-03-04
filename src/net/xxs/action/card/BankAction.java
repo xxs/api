@@ -23,7 +23,7 @@ import com.opensymphony.xwork2.validator.annotations.Validations;
 
 @ParentPackage("card")
 @InterceptorRefs({
-	@InterceptorRef(value = "memberVerifyInterceptor"),
+	@InterceptorRef(value = "VerifyInterceptor"),
 	@InterceptorRef(value = "cardStack")
 })
 public class BankAction extends BaseCardAction {
@@ -51,8 +51,8 @@ public class BankAction extends BaseCardAction {
 	public String add() {
 		Business loginBusiness = getLoginBusiness();
 		Set<Bank> bankSet = loginBusiness.getBankSet();
-		if (bankSet != null && Bank.MAX_MEMBERBANK_COUNT != null && bankSet.size() >= Bank.MAX_MEMBERBANK_COUNT) {
-			addActionError("只允许最多添加" + Bank.MAX_MEMBERBANK_COUNT + "个提现账户!");
+		if (bankSet != null && Bank.MAX_BUSINESSBANK_COUNT != null && bankSet.size() >= Bank.MAX_BUSINESSBANK_COUNT) {
+			addActionError("只允许最多添加" + Bank.MAX_BUSINESSBANK_COUNT + "个提现账户!");
 			return ERROR;
 		}
 		return INPUT;
@@ -69,11 +69,11 @@ public class BankAction extends BaseCardAction {
 	// 账户更新
 	@Validations(
 			requiredStrings = { 
-				@RequiredStringValidator(fieldName = "memberBank.banknum", message = "账号不允许为空!"),
-				@RequiredStringValidator(fieldName = "memberBank.bankname", message = "银行名称不允许为空!"),
-				@RequiredStringValidator(fieldName = "memberBank.openname", message = "开户姓名不允许为空!"),
-				@RequiredStringValidator(fieldName = "memberBank.bankcity", message = "银行所在地不允许为空!"),
-				@RequiredStringValidator(fieldName = "memberBank.bankdetail", message = "支行明细不允许为空!")
+				@RequiredStringValidator(fieldName = "Bank.banknum", message = "账号不允许为空!"),
+				@RequiredStringValidator(fieldName = "Bank.bankname", message = "银行名称不允许为空!"),
+				@RequiredStringValidator(fieldName = "Bank.openname", message = "开户姓名不允许为空!"),
+				@RequiredStringValidator(fieldName = "Bank.bankcity", message = "银行所在地不允许为空!"),
+				@RequiredStringValidator(fieldName = "Bank.bankdetail", message = "支行明细不允许为空!")
 			}
 		)
 	@InputConfig(resultName = "error")
@@ -94,19 +94,19 @@ public class BankAction extends BaseCardAction {
 	// 账户添加
 	@Validations(
 			requiredStrings = { 
-				@RequiredStringValidator(fieldName = "memberBank.banknum", message = "账号不允许为空!"),
-				@RequiredStringValidator(fieldName = "memberBank.bankname", message = "银行名称不允许为空!"),
-				@RequiredStringValidator(fieldName = "memberBank.openname", message = "开户姓名不允许为空!"),
-				@RequiredStringValidator(fieldName = "memberBank.bankcity", message = "银行所在地不允许为空!"),
-				@RequiredStringValidator(fieldName = "memberBank.bankdetail", message = "支行明细不允许为空!")
+				@RequiredStringValidator(fieldName = "Bank.banknum", message = "账号不允许为空!"),
+				@RequiredStringValidator(fieldName = "Bank.bankname", message = "银行名称不允许为空!"),
+				@RequiredStringValidator(fieldName = "Bank.openname", message = "开户姓名不允许为空!"),
+				@RequiredStringValidator(fieldName = "Bank.bankcity", message = "银行所在地不允许为空!"),
+				@RequiredStringValidator(fieldName = "Bank.bankdetail", message = "支行明细不允许为空!")
 			}
 		)
 	@InputConfig(resultName = "error")
 	public String save() {
 		business = getLoginBusiness();
 		Set<Bank> bankSet = business.getBankSet();
-		if (bankSet != null && Bank.MAX_MEMBERBANK_COUNT != null && bankSet.size() >= Bank.MAX_MEMBERBANK_COUNT) {
-			addActionError("只允许最多添加" + Bank.MAX_MEMBERBANK_COUNT + "个提现账户!");
+		if (bankSet != null && Bank.MAX_BUSINESSBANK_COUNT != null && bankSet.size() >= Bank.MAX_BUSINESSBANK_COUNT) {
+			addActionError("只允许最多添加" + Bank.MAX_BUSINESSBANK_COUNT + "个提现账户!");
 			return ERROR;
 		}
 		bank.setBusiness(business);

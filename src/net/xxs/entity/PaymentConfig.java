@@ -26,22 +26,10 @@ public class PaymentConfig extends BaseEntity {
 
 	private static final long serialVersionUID = -7950849648189504426L;
 	
-	// 支付配置类型（预存款、线下支付、在线支付）
-	public enum PaymentConfigType {
-		deposit, offline, online
-	};
-	
-	// 支付手续费类型（按比例收费、固定费用）
-	public enum PaymentFeeType {
-		scale, fixed
-	}
-	
-	private PaymentConfigType paymentConfigType;// 支付配置类型
 	private String paymentProductId;// 支付产品标识
 	private String name;// 支付方式名称
 	private String bargainorId;// 商家ID
 	private String bargainorKey;// 商户私钥
-	private PaymentFeeType paymentFeeType;// 支付手续费类型
 	private BigDecimal paymentFee;// 支付费用
 	private Boolean isDefault;// 是否默认
 	private Boolean isEnabled;// 是否可用
@@ -50,16 +38,6 @@ public class PaymentConfig extends BaseEntity {
 	
 	private Set<PaymentDiscount> paymentDiscountSet = new HashSet<PaymentDiscount>();// 费率设置
 	private Set<Order> orderSet = new HashSet<Order>();// 订单
-	
-	@Enumerated
-	@Column(nullable = false, updatable = false)
-	public PaymentConfigType getPaymentConfigType() {
-		return paymentConfigType;
-	}
-
-	public void setPaymentConfigType(PaymentConfigType paymentConfigType) {
-		this.paymentConfigType = paymentConfigType;
-	}
 	
 	@Column(updatable = false)
 	public String getPaymentProductId() {
@@ -93,16 +71,6 @@ public class PaymentConfig extends BaseEntity {
 
 	public void setBargainorKey(String bargainorKey) {
 		this.bargainorKey = bargainorKey;
-	}
-
-	@Enumerated
-	@Column(nullable = false)
-	public PaymentFeeType getPaymentFeeType() {
-		return paymentFeeType;
-	}
-
-	public void setPaymentFeeType(PaymentFeeType paymentFeeType) {
-		this.paymentFeeType = paymentFeeType;
 	}
 
 	@Column(nullable = false, precision = 15, scale = 5)
@@ -182,21 +150,6 @@ public class PaymentConfig extends BaseEntity {
 		}
 	}
 	
-	/**
-	 * 根据总金额计算支付费用
-	 * 
-	 * @return 支付费用
-	 */
-	@Transient
-	public BigDecimal getPaymentFee(BigDecimal totalAmount) {
-		BigDecimal paymentFee = new BigDecimal(0);
-		if (paymentFeeType == PaymentFeeType.scale){
-			paymentFee = totalAmount.multiply(this.paymentFee.divide(new BigDecimal(100)));
-		} else {
-			paymentFee = this.paymentFee;
-		}
-		return SettingUtil.setPriceScale(paymentFee);
-	}
 	@OneToMany(mappedBy = "paymentConfig", fetch = FetchType.LAZY, cascade = {CascadeType.REMOVE})
 	@OrderBy("createDate asc")
 	public Set<PaymentDiscount> getPaymentDiscountSet() {
